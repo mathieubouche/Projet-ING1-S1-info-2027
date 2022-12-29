@@ -1,0 +1,445 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+//int
+
+
+
+
+
+
+int menuprincipal()
+{   int choix;
+    int nbjoueurs;
+    printf("nouvelle partie (1)\nsauvegarder(2)\ncharger une partie(3)\n"
+           "afficher les regles et credits(4)\nquitter(5)\n");
+
+    scanf("%d",&choix);
+
+    while (choix<1 || choix >5)
+
+    {printf("veuillez entrer un choix existant");
+        scanf("%d",&choix);}
+    if (choix ==1)
+    {
+        printf("nouvelle partie\n");
+        printf("veuillez entrer le nombre de joueurs");
+        scanf("%d",&nbjoueurs);
+
+        while(nbjoueurs<1 || nbjoueurs>4)
+        {   printf("veuillez entrer le nombre de joueurs");
+            scanf("%d",&nbjoueurs);}
+        return nbjoueurs;
+
+    }
+    if (choix ==2)
+    {
+        printf("sauvegarder");
+
+    }
+    if (choix ==3)
+    {
+        printf("charger partie");
+
+
+    }
+    if (choix ==4)
+    {
+        printf("Pour jouer au Labyrinthe, il vous faut :\n"
+               "1 a 4 joueurs.\n"
+               "Le plateau de jeu.\n"
+               "Les 24 cartes «tresor».\n"
+               "Les 34 cartons carres «labyrinthe».\n"
+               "Les 4 pions de couleurs differentes.\n"
+               "Comment jouer au Labyrinthe :\n"
+               "Dans un premier temps, il faut mettre en place le plateau de jeu.\n"
+               "Pour ce faire, il vous faut melanger les cartons «labyrinthe» qui represente les couloirs du labyrinthe vu du dessus.\n"
+               "Ensuite, il faut les placer sur les emplacements libres du plateau de jeu de manière à créer un labyrinthe aléatoire. \n"
+               "Une fois le labyrinthe cree il doit vous rester une carte «labyrinthe». Cette carte servira a deplacer les couloirs en les faisant coulisser.\n"
+               "Avant de commencer la partie, les joueurs doivent se distribuer toutes les cartes «tresor», face cachee, de façon à ce qu ils aient tous le meme \n"
+               "nombre de cartes. Chaque joueur doit empiler ses cartes devant lui sans les regarder.  Chaque joueur choisit son pion et le place sur la case \n"
+               "correspondante a la couleur de celui-ci (dans les 4 coins du plateau de jeu).\n"
+               "C est le joueur le plus jeune qui commence a jouer et la partie se poursuit dans le sens des aiguilles d une montre. Chaque joueur regarde la carte «tresor»\n"
+               "situee en haut de sa pile sans la devoiler aux autres. Il faut savoir que le tour d un joueur se deroule toujours de la meme maniere.\n"
+               "En effet, le joueur doit toujours deplacer une rangee ou une colonne en premier, en introduisant la carte «Labyrinthe» supplementaire. Ensuite il peut \n"
+               "deplacer son pion pour essayer d atteindre son objectif «tresor». Notez qu un joueur est toujours oblige de modifier le labyrinthe avant de pouvoir deplacer \n"
+               "son pion et ce meme si  son «tresor» est accessible directement.\n"
+               "Le tour d un joueur au Labyrinthe :\n"
+               "1 – La modification des couloirs du Labyrinthe :\n"
+               "Il y a 12 fleches sur les bordures du plateau de jeu. Elles indiquent les colonnes et les rangees qui peuvent être modifiees en inserant \n"
+               "la carte «labyrinthe»\n"
+               "supplementaire. C est le joueur qui choisit la colonne ou la rangee qu il souhaite modifier lorsque vient son tour. Il suffit de pousser \n"
+               "la colonne ou la rangee à l aide de la carte supplementaire vers l interieur du plateau.  Une nouvelle carte est donc expulsee de l autre cote du plateau.\n"
+               "Cette nouvelle carte «labyrinthe» reste sur le cote du plateau jusqu a temps qu’elle soit reintroduite par le joueur suivant.\n"
+               "ATTENTION : si un pion est expulse hors du plateau lors d un mouvement d une colonne ou d’une rangee il est replace à l oppose de celle-ci.\n"
+               " Cependant, ceci ne constitue pas un mouvement du pion.\n"
+               "2 – Le deplacement du joueur :\n"
+               "\n"
+               "Une fois que le joueur a modifie le labyrinthe, il peut se deplacer. Le joueur peut deplacer son pion librement aussi loin qu il le souhaite mais il \n"
+               "ne peut pas, bien sur, traverser les murs. Il est possible de s arreter sur une case occupee par un autre joueur. S il le veut,  il n’est pas oblige\n"
+               "d avancer et peut rester sur place.\n"
+               "\n"
+               "Si le joueur n a pas son tresor (dessin de la carte «tresor») il peut placer son pion de maniere a se rapprocher au plus pres de son objectif \n"
+               "pour le prochain tour. Si le joueur atteint son tresor il se defausse de sa carte et peut directement regarder son prochain objectif en prenant la \n"
+               "carte suivante de sa pile cartes «tresor»\n"
+               "\n"
+               "C est alors au joueur de suivant de jouer. Il procedera de la meme maniere en modifiant le labyrinthe puis en deplaçant son pion vers son objectif «tresor».\n"
+               "\n"
+               "Comment gagner au Labyrinthe :\n"
+               "Pour remporter une partie au Labyrinthe, le joueur doit avoir decouvert tous ses tresors et doit revenir a son point de depart. Une fois de retour\n"
+               "a son point de depart il est declare vainqueur et la partie est terminee.\n"
+               "\n"
+               "Credits \n"
+               "https://www.regles-de-jeux.com/regle-du-labyrinthe/\n"
+               "Elias Doudady \n"
+               "Kimi Ho\n"
+               "Pierre Tailhades\n"
+               "Mathieu Bouche");
+        menuprincipal();
+
+
+
+    }
+    if (choix ==5)
+    {
+        return 0;
+    }
+
+}
+
+
+void plateau(int* nbjoueurs){
+    int choix;
+    int direction;
+    int x=1;
+    int y=1;
+    int etattour=1;
+    printf(" c est parti pour %d joueurs !\n",*nbjoueurs);
+
+     int x2=25;
+     int y2=1;
+     int x3=1;
+     int y3=19;
+     int x4=25;
+     int y4=19;
+
+
+    while(1==1) {
+        char plato[27][27] =
+                {{'#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#'},// ligne 1
+                 {'#', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '#'},
+                 {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},
+
+                 {'#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},//ligne 2
+                 {'_', '_', '_', ' ', '_', '_', '#', ' ', '#', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '#', ' ', '_', '_', '#', ' ', '#', '_', '#'},
+                 {'#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},
+
+                 {'#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},//ligne 3
+                 {'#', '_', '_', ' ', '_', '_', '#', ' ', '#', '_', '_', ' ', '_', '_', '#', ' ', '_', '_', '_', ' ', '_', '_', '#', ' ', '_', '_', '#'},
+                 {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},
+
+                 {'#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},//ligne 4
+                 {'#', '_', '#', ' ', '_', '_', '#', ' ', '#', '_', '_', ' ', '_', '_', '#', ' ', '#', '_', '_', ' ', '_', '_', '#', ' ', '#', '_', '#'},
+                 {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},
+
+                 {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},//ligne 5
+                 {'#', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '#', ' ', '_', '_', '#', ' ', '_', '_', '#'},
+                 {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},
+
+                 {'#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},//ligne 6
+                 {'#', '_', '#', ' ', '_', '_', '#', ' ', '#', '_', '_', ' ', '_', '_', '#', ' ', '#', '_', '_', ' ', '_', '_', '#', ' ', '#', '_', '#'},
+                 {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},
+
+                 {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},//ligne 7
+                 {'#', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '_', ' ', '_', '_', '#', ' ', '_', '_', '#'},
+                 {'#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#'}};
+
+        if(etattour==1) {
+        printf("tour joueur1\n");
+        printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder");
+        scanf("%d", &choix);
+        while (choix <= 0 || choix > 6) {
+            printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder");
+            scanf("%d", &choix);
+        }
+
+
+           if (choix == 1) {
+               printf("de cb voulez vs avancer?\n");
+               scanf("%d", &direction);
+               x = x + (direction * 4); }
+
+           if (choix == 2) {
+               printf("de cb voulez vs avancer?\n");
+               scanf("%d", &direction);
+               direction = direction * (-4);
+               x = x + direction;
+           }
+           if (choix == 3) {
+               printf("de cb voulez vs avancer?\n");
+               scanf("%d", &direction);
+               direction = direction * (-3);
+               y = y + direction;
+           }
+           if (choix == 4) {
+               printf("de cb voulez vs avancer?\n");
+               scanf("%d", &direction);
+               y = y + (direction * 3);
+
+           }
+           if (choix == 5) {
+               printf("tour suivant");
+               etattour++;
+
+           }
+           if (choix == 6) {
+               printf("sauvegarder");
+
+           }
+           if (x > 27) {
+               x = 25;
+           }
+           if (x < 0) {
+               x = 1;
+           }
+           if (y > 20) {
+               y = 19;
+           }
+           if (y < 0) {
+               y = 1;
+           }
+
+       }
+        if(etattour==2) {
+            printf("tour joueur2\n");
+            printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder");
+            while (choix <= 0 || choix > 6) {
+                printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder");
+                scanf("%d", &choix);
+            }
+
+            scanf("%d", &choix);
+
+
+            if (choix == 1) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                x2 = x2 + (direction * 4); }
+
+            if (choix == 2) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                direction = direction * (-4);
+                x2 = x2 + direction;
+            }
+            if (choix == 3) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                direction = direction * (-3);
+                y2 = y2 + direction;
+            }
+            if (choix == 4) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                y2 = y2 + (direction * 3);
+
+            }
+            if (choix == 5) {
+                printf("tour suivant");
+                etattour++;
+
+            }
+            if (choix == 6) {
+                printf("sauvegarder");
+
+            }
+            if (x2 > 27) {
+                x2 = 25;
+            }
+            if (x2 < 0) {
+                x2 = 1;
+            }
+            if (y2 > 20) {
+                y2 = 19;
+            }
+            if (y2 < 0) {
+                y2 = 1;
+            }
+
+        }
+        if(etattour==3) {
+            printf("tour joueur3\n");
+            printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder");
+            while (choix <= 0 || choix > 6) {
+                printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder");
+                scanf("%d", &choix);
+            }
+
+            scanf("%d", &choix);
+
+            if (choix == 1) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                x3 = x3 + (direction * 4); }
+
+            if (choix == 2) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                direction = direction * (-4);
+                x3 = x3 + direction;
+            }
+            if (choix == 3) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                direction = direction * (-3);
+                y3 = y3 + direction;
+            }
+            if (choix == 4)
+            {printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                y3 = y3 + (direction * 3);
+
+            }
+            if (choix == 5) {
+                printf("tour suivant");
+                etattour++;
+
+            }
+            if (choix == 6) {
+                printf("sauvegarder");
+
+            }
+            if (x3 > 27) {
+                x3 = 25;
+            }
+            if (x < 0) {
+                x = 1;
+            }
+            if (y3 > 20) {
+                y3 = 19;
+            }
+            if (y3 < 0) {
+                y3 = 1;
+            }
+
+        }if(etattour==4) {
+            printf("tour joueur4\n");
+            printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder");
+            while (choix <= 0 || choix > 6) {
+                printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder");
+                scanf("%d", &choix);
+            }
+
+            scanf("%d", &choix);
+
+            if (choix == 1) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                x4 = x4 + (direction * 4); }
+
+            if (choix == 2) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                direction = direction * (-4);
+                x4 = x4 + direction;
+            }
+            if (choix == 3) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                direction = direction * (-3);
+                y4 = y4 + direction;
+            }
+            if (choix == 4) {
+                printf("de cb voulez vs avancer?\n");
+                scanf("%d", &direction);
+                y4 = y4 + (direction * 3);
+
+            }
+            if (choix == 5) {
+                printf("tour suivant");
+                etattour++;
+
+            }
+            if (choix == 6) {
+                printf("sauvegarder");
+
+            }
+            if (x4 > 27) {
+                x4 = 25;
+            }
+            if (x4 < 0) {
+                x4 = 1;
+            }
+            if (y4 > 20) {
+                y4 = 19;
+            }
+            if (y4 < 0) {
+                y4 = 1;
+            }
+
+        }
+        plato[y][x] = "A";
+        if(*nbjoueurs>=2)
+        {plato[y2][x2] = "B";}
+        if(*nbjoueurs>=2)
+        {plato[y3][x3] = "C";}
+        if(*nbjoueurs>=2)
+        {plato[y4][x4] = "D";}
+        for (int i = 0; i < 27; i++) {
+            for (int j = 0; j < 27; j++) {
+                printf("%3c", plato[i][j]);
+
+            }
+            printf("\n");
+            if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
+        }
+
+        if(*nbjoueurs==1)
+        {
+            if(etattour>1)
+            {
+                etattour=1;
+            }
+        }
+        if(*nbjoueurs==2)
+        {
+            if(etattour>2)
+            {
+                etattour=1;
+            }
+        }
+        if(*nbjoueurs==3)
+        {
+            if(etattour>3)
+            {
+                etattour=1;
+            }
+        }
+        if(*nbjoueurs==4)
+        {
+            if(etattour>4)
+            {
+                etattour=1;
+            }
+        }
+
+
+
+    }
+}
+
+
+
+
+
+int main(){
+    int nbjoueurs1;
+
+
+    nbjoueurs1= menuprincipal();
+    int* nbjoueurs2 = &nbjoueurs1;
+
+    plateau(nbjoueurs2);
+    return 0;
+}
