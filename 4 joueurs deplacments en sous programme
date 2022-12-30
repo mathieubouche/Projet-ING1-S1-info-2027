@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-int menudeplacements(int* choix, int* x, int* y)
+int menudeplacements(int* choix, int* x, int* y/*,int* tab[27][27]*/)
 {
     int direction;
     if (*choix == 1) {
@@ -52,9 +52,10 @@ int menudeplacements(int* choix, int* x, int* y)
 
 
 
-int menuprincipal()
+int menuprincipal(int* parti)
 {   int choix;
     int nbjoueurs;
+    *parti=0;
     printf("nouvelle partie (1)\nsauvegarder(2)\ncharger une partie(3)\n"
            "afficher les regles et credits(4)\nquitter(5)\n");
 
@@ -73,7 +74,9 @@ int menuprincipal()
         while(nbjoueurs<1 || nbjoueurs>4)
         {   printf("veuillez entrer le nombre de joueurs");
             scanf("%d",&nbjoueurs);}
+        *parti=1;
         return nbjoueurs;
+
 
     }
     if (choix ==2)
@@ -139,7 +142,7 @@ int menuprincipal()
                "Kimi Ho\n"
                "Pierre Tailhades\n"
                "Mathieu Bouche");
-        menuprincipal();
+        menuprincipal( parti);
 
 
 
@@ -154,6 +157,7 @@ int menuprincipal()
 
 void plateau(int* nbjoueurs){
     int a;
+    int i;
     int *choix=&a;
     int x=1;
     int y=1;
@@ -217,6 +221,8 @@ void plateau(int* nbjoueurs){
         }
 
             menudeplacements(choix,xp,yp);
+
+
 
 
         if (*choix == 5) {
@@ -356,11 +362,11 @@ void plateau(int* nbjoueurs){
 
 int main(){
     int nbjoueurs1;
-
-
-    nbjoueurs1= menuprincipal();
+    int debutpart;
+    int* debutpart1=&debutpart;
+    nbjoueurs1= menuprincipal(debutpart1);
     int* nbjoueurs2 = &nbjoueurs1;
-
-    plateau(nbjoueurs2);
+    if(*debutpart1==1)
+{  plateau(nbjoueurs2);}
     return 0;
 }
