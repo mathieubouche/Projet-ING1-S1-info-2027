@@ -168,6 +168,17 @@ void plateau(int* nbjoueurs){
     int y3=19;
     int x4=25;
     int y4=19;
+    if(*nbjoueurs<4)
+    {   y4=0;
+        x4=0;}
+    if(*nbjoueurs<3)
+    {   y3=0;
+        x3=0;}
+    if(*nbjoueurs<2)
+    {   y2=0;
+        x2=0;}
+
+
     int* xp=&x;
     int* yp=&y;
     int* xp2=&x2;
@@ -248,6 +259,13 @@ void plateau(int* nbjoueurs){
                     {printf("ca va pas\n");
                         *yp=yt1;}
                 }}
+            if(*yp==*yp2 && *xp==*xp2 || *yp==*yp3 && *xp==*xp3 || *yp==*yp4 && *xp==*xp4)
+            {
+                printf("ca ne va pas\n");
+                *yp=yt1;
+                *xp=xt1;
+            }
+
 
 
         if (*choix == 5) {
@@ -306,6 +324,12 @@ void plateau(int* nbjoueurs){
                     {printf("ca va pas\n");
                         *yp2=yt2;}
                 }}
+            if(*yp2==*yp && *xp2==*xp || *yp2==*yp3 && *xp2==*xp3 || *yp2==*yp4 && *xp2==*xp4)
+            {
+                printf("ca ne va pas\n");
+                *yp2=yt2;
+                *xp2=xt2;
+            }
             if (*choix == 5) {
                 printf("tour suivant\n");
                 etattour++;
@@ -362,7 +386,12 @@ void plateau(int* nbjoueurs){
                     *yp3=yt3;}
             }}
 
-         
+            if(*yp3==*yp && *xp3==*xp || *yp3==*yp2 && *xp3==*xp2 || *yp3==*yp4 && *xp3==*xp4)
+            {
+                printf("ca ne va pas\n");
+                *yp3=yt3;
+                *xp3=xt3;
+            }
             if (*choix == 5) {
                 printf("tour suivant\n");
                 etattour++;
@@ -416,7 +445,12 @@ void plateau(int* nbjoueurs){
                         {printf("ca va pas\n");
                             *yp4=yt;}
                     }}
-
+                if(*yp4==*yp && *xp4==*xp || *yp4==*yp2 && *xp4==*xp2 || *yp4==*yp3 && *xp4==*xp3)
+                {
+                    printf("ca ne va pas\n");
+                    *yp4=yt;
+                    *xp4=xt;
+                }
                 if (*choix == 5) {
                 printf("tour suivant\n");
                 etattour++;
@@ -439,13 +473,13 @@ void plateau(int* nbjoueurs){
         }
 
 
-        plato[*yp][*xp] = "A";
+        plato[*yp][*xp] = 'A';
         if(*nbjoueurs>=2)
-        {plato[*yp2][*xp2] = "B";}
+        {plato[*yp2][*xp2] = 'B';}
         if(*nbjoueurs>=3)
-        {plato[*yp3][*xp3] = "C";}
+        {plato[*yp3][*xp3] = 'C';}
         if(*nbjoueurs>=4)
-        {plato[*yp4][*xp4] = "D";}
+        {plato[*yp4][*xp4] = 'D';}
         for (int i = 0; i < 27; i++) {
             for (int j = 0; j < 27; j++) {
                 printf("%3c", plato[i][j]);
