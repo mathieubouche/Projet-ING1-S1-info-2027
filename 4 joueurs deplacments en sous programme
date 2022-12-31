@@ -220,10 +220,34 @@ void plateau(int* nbjoueurs){
             printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder\n");
             scanf("%d", choix);
         }
-
+            xt1= *xp;
+            yt1= *yp;
             menudeplacements(choix,xp,yp);
 
-
+            if(*choix==2)
+            {for(i=xt1;i>*xp;i--)
+                {if( plato[yt1][i]=='#')
+                    {printf("ca va pas\n");
+                        *xp=xt1;}
+                }}
+            if(*choix==1)
+            {for(i=xt1;i<*xp;i++)
+                {if( plato[yt1][i]=='#')
+                    {printf("ca va pas\n");
+                        *xp=xt1;}
+                }}
+            if(*choix==3)
+            {for(i=yt1;i>*yp;i--)
+                {if( plato[i][xt1]=='#')
+                    {printf("ca va pas\n");
+                        *yp=yt1;}
+                }}
+            if(*choix==4)
+            {for(i=yt1;i<*yp;i++)
+                {if( plato[i][xt1]=='#')
+                    {printf("ca va pas\n");
+                        *yp=yt1;}
+                }}
 
 
         if (*choix == 5) {
@@ -255,9 +279,33 @@ void plateau(int* nbjoueurs){
                 printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 sauvegarder\n");
                 scanf("%d", choix);
             }
-
+            xt2= *xp2;
+            yt2= *yp2;
             menudeplacements(choix,xp2,yp2);
-            
+            if(*choix==2)
+            {for(i=xt2;i>*xp2;i--)
+                {if( plato[yt2][i]=='#')
+                    {printf("ca va pas\n");
+                        *xp2=xt2;}
+                }}
+            if(*choix==1)
+            {for(i=xt2;i<*xp2;i++)
+                {if( plato[yt2][i]=='#')
+                    {printf("ca va pas\n");
+                        *xp2=xt2;}
+                }}
+            if(*choix==3)
+            {for(i=yt2;i>*yp2;i--)
+                {if( plato[i][xt2]=='#')
+                    {printf("ca va pas\n");
+                        *yp2=yt2;}
+                }}
+            if(*choix==4)
+            {for(i=yt2;i<*yp2;i++)
+                {if( plato[i][xt2]=='#')
+                    {printf("ca va pas\n");
+                        *yp2=yt2;}
+                }}
             if (*choix == 5) {
                 printf("tour suivant\n");
                 etattour++;
@@ -344,26 +392,30 @@ void plateau(int* nbjoueurs){
             xt=*xp4;
             yt=*yp4;
             menudeplacements(choix,xp4,yp4);
-                for(i=xt;i>*xp4;i--)
-                {if( plato[yt][i]=='#')
-                    {printf("ca va pas\n");
-                        *xp4=xt;}
-                }
-                for(i=xt;i<*xp4;i++)
-                {if( plato[yt][i]=='#')
-                    {printf("ca va pas\n");
-                        *xp4=xt;}
-                }
-                for(i=yt;i<*yp4;i++)
-                {if( plato[i][xt]=='#')
-                    {printf("ca va pas\n");
-                        *yp4=yt;}
-                }
-                for(i=yt;i>*xp;i--)
-                {if( plato[i][xt]=='#')
-                    {printf("ca va pas\n");
-                        *yp4=yt;}
-                }
+                if(*choix==2)
+                {for(i=xt;i>*xp4;i--)
+                    {if( plato[yt][i]=='#')
+                        {printf("ca va pas\n");
+                            *xp4=xt;}
+                    }}
+                if(*choix==1)
+                {for(i=xt;i<*xp4;i++)
+                    {if( plato[yt][i]=='#')
+                        {printf("ca va pas\n");
+                            *xp4=xt;}
+                    }}
+                if(*choix==3)
+                {for(i=yt;i>*yp4;i--)
+                    {if( plato[i][xt]=='#')
+                        {printf("ca va pas\n");
+                            *yp4=yt;}
+                    }}
+                if(*choix==4)
+                {for(i=yt;i<*yp4;i++)
+                    {if( plato[i][xt]=='#')
+                        {printf("ca va pas\n");
+                            *yp4=yt;}
+                    }}
 
                 if (*choix == 5) {
                 printf("tour suivant\n");
