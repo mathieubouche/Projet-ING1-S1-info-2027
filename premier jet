@@ -1,1 +1,59 @@
 Essaie
+if (orientation == 2) {
+                a = tuileEnPlus1[0][0];
+                z = tuileEnPlus1[0][1];
+                e = tuileEnPlus1[0][2];
+                r = tuileEnPlus1[1][2];
+                t = tuileEnPlus1[2][2];
+                y = tuileEnPlus1[2][1];
+                u = tuileEnPlus1[2][0];
+                o = tuileEnPlus1[1][0];
+
+                tuileEnPlus1[0][0] = u;
+                tuileEnPlus1[0][1] = o;
+                tuileEnPlus1[0][2] = a;
+                tuileEnPlus1[1][2] = z;
+                tuileEnPlus1[2][2] = e;
+                tuileEnPlus1[2][1] = r;
+                tuileEnPlus1[2][0] = t;
+                tuileEnPlus1[1][0] = y;
+            }
+            else if (orientation == 3) {
+                a = tuileEnPlus1[0][0];
+                z = tuileEnPlus1[0][1];
+                e = tuileEnPlus1[0][2];
+                r = tuileEnPlus1[1][2];
+                t = tuileEnPlus1[2][2];
+                y = tuileEnPlus1[2][1];
+                u = tuileEnPlus1[2][0];
+                o = tuileEnPlus1[1][0];
+
+                tuileEnPlus1[0][0] = t;
+                tuileEnPlus1[0][1] = y;
+                tuileEnPlus1[0][2] = u;
+                tuileEnPlus1[1][2] = o;
+                tuileEnPlus1[2][2] = a;
+                tuileEnPlus1[2][1] = z;
+                tuileEnPlus1[2][0] = e;
+                tuileEnPlus1[1][0] = r;
+
+            }
+            else if (orientation == 4) {
+                a = tuileEnPlus1[0][0];
+                z = tuileEnPlus1[0][1];
+                e = tuileEnPlus1[0][2];
+                r = tuileEnPlus1[1][2];
+                t = tuileEnPlus1[2][2];
+                y = tuileEnPlus1[2][1];
+                u = tuileEnPlus1[2][0];
+                o = tuileEnPlus1[1][0];
+
+                tuileEnPlus1[0][0] = e;
+                tuileEnPlus1[0][1] = r;
+                tuileEnPlus1[0][2] = t;
+                tuileEnPlus1[1][2] = y;
+                tuileEnPlus1[2][2] = u;
+                tuileEnPlus1[2][1] = o;
+                tuileEnPlus1[2][0] = a;
+                tuileEnPlus1[1][0] = z;
+            }
