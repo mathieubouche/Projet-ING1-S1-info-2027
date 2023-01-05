@@ -18,10 +18,10 @@ void melangeCartes(char *cartes) {
 }
 
 void distributionCartes(char *cartes, int nbJoueur, char mains[][NUM_CARDS / 2]) {
-    int cartesPerPlayer = NUM_CARDS / nbJoueur;
+    int cartesParJoueur = NUM_CARDS / nbJoueur;
     for (int i = 0; i < nbJoueur; i++) {
-        for (int j = 0; j < cartesPerPlayer; j++) {
-            mains[i][j] = cartes[i * cartesPerPlayer + j];
+        for (int j = 0; j < cartesParJoueur; j++) {
+            mains[i][j] = cartes[i * cartesParJoueur + j];
         }
     }
 }
