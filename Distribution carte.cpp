@@ -27,21 +27,17 @@ void distributionCartes(char *cartes, int nbJoueur, char mains[][NUM_CARDS / 2])
 }
 
 int main() {
-    // Seed the random number generator
     srand(time(NULL));
 
-    // Get the number of players
     int nbJoueur;
     printf("Nombre de joueurs (2-4): ");
     scanf("%d", &nbJoueur);
 
-    // Shuffle the deck
     melangeCartes(cartes);
 
-    // Deal the cartes to the players
     distributionCartes(cartes, nbJoueur, mains);
 
-    // Print the mains
+    //Retour des cartes
     for (int i = 0; i < nbJoueur; i++) {
         printf("Main du joueur %d: ", i + 1);
         for (int j = 0; j < NUM_CARDS / nbJoueur; j++) {
