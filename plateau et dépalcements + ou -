@@ -47,9 +47,9 @@ int choixGD() {
 void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
 
 
- /*   tuileEnPlus1[3][3]={{'#', '#', '#'},
-                        {'_', '_', '#'},
-                        {'#', '_', '#'}};*/
+    /*   tuileEnPlus1[3][3]={{'#', '#', '#'},
+                           {'_', '_', '#'},
+                           {'#', '_', '#'}};*/
 
 
     for (int i = 0; i < 3; i++) {
@@ -248,13 +248,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
             } else if (ligne == 6) {
 
                 for (int i = 0; i < 3; i++) {
@@ -311,13 +305,8 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
+
             }
         } else if (sens == 2) {
             if (ligne == 2) {
@@ -376,13 +365,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2) printf("\n"); // 2 5 8 11 13 15
-                }
+
             } else if (ligne == 4) {
 
 
@@ -440,13 +423,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2) printf("\n"); // 2 5 8 11 13 15
-                }
+
             }
             if (ligne == 6) {
 
@@ -504,13 +481,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2) printf("\n"); // 2 5 8 11 13 15
-                }
+
             }
         }
     } else {
@@ -764,13 +735,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
 
 
             } else if (colonne == 4) {
@@ -893,13 +858,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
             }
         }
     }
@@ -1081,7 +1040,7 @@ void plateau(int *nbjoueurs, int *parti) {
     int *yp3 = &y3;
     int *xp4 = &x4;
     int *yp4 = &y4;
-
+    int thule=1;
     int etattour = 1;
     printf(" c est parti pour %d joueurs !\n", *nbjoueurs);
     char plato[21][27] =
@@ -1115,14 +1074,26 @@ void plateau(int *nbjoueurs, int *parti) {
 
 
     char tuileEnPlus[3][3] = {{'#', '#', '#'},
-                               {'_', '_', '#'},
-                               {'#', '_', '#'}};
+                              {'_', '_', '#'},
+                              {'#', '_', '#'}};
+
+    for (int i = 0; i < 21; i++) {
+        for (int j = 0; j < 27; j++) {
+            printf("%3c", plato[i][j]);
+
+        }
+        printf("\n");
+        if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
+    }
 
     while (1 == 1) {
 
-        gros(plato,tuileEnPlus);
         if (etattour == 1) {
             printf("tour joueur1\n");
+            if(thule==1)
+            {gros(plato,tuileEnPlus);
+                thule=0;
+            }
             printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
             scanf("%d", choix);
             while (*choix <= 0 || *choix > 6) {
@@ -1175,7 +1146,7 @@ void plateau(int *nbjoueurs, int *parti) {
             if (*choix == 5) {
                 printf("tour suivant\n");
                 etattour++;
-
+                thule=1;
             }
             if (*choix == 6) {
                 printf("retour au menu");
@@ -1191,6 +1162,10 @@ void plateau(int *nbjoueurs, int *parti) {
         }
         if (etattour == 2) {
             printf("tour joueur2\n");
+            if(thule==1)
+            {gros(plato,tuileEnPlus);
+                thule=0;
+            }
             printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
             scanf("%d", choix);
             while (*choix <= 0 || *choix > 6) {
@@ -1240,7 +1215,7 @@ void plateau(int *nbjoueurs, int *parti) {
             if (*choix == 5) {
                 printf("tour suivant\n");
                 etattour++;
-
+                thule=1;
             }
             if (*choix == 6) {
                 printf("retour au menu");
@@ -1257,6 +1232,10 @@ void plateau(int *nbjoueurs, int *parti) {
 
         if (etattour == 3) {
             printf("tour joueur3\n");
+            if(thule==1)
+            {gros(plato,tuileEnPlus);
+                thule=0;
+            }
             printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
             scanf("%d", choix);
             while (*choix <= 0 || *choix > 6) {
@@ -1308,7 +1287,7 @@ void plateau(int *nbjoueurs, int *parti) {
             if (*choix == 5) {
                 printf("tour suivant\n");
                 etattour++;
-
+                thule=1;
             }
             if (*choix == 6) {
                 printf("retour au menu");
@@ -1324,6 +1303,10 @@ void plateau(int *nbjoueurs, int *parti) {
 
         if (etattour == 4) {
             printf("tour joueur4\n");
+            if(thule==1)
+            {gros(plato,tuileEnPlus);
+                thule=0;
+            }
             printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
             scanf("%d", choix);
             while (*choix <= 0 || *choix > 6) {
@@ -1373,7 +1356,7 @@ void plateau(int *nbjoueurs, int *parti) {
             if (*choix == 5) {
                 printf("tour suivant\n");
                 etattour++;
-
+                thule=1;
             }
             if (*choix == 6) {
                 printf("retour au menu");
@@ -1389,10 +1372,18 @@ void plateau(int *nbjoueurs, int *parti) {
             etattour = 1;
 
         }
+        plato[yt1][xt1]='_';
         plato[*yp][*xp] = 'A';
-        if (*nbjoueurs >= 2) { plato[*yp2][*xp2] = 'B'; }
-        if (*nbjoueurs >= 3) { plato[*yp3][*xp3] = 'C'; }
-        if (*nbjoueurs >= 4) { plato[*yp4][*xp4] = 'D'; }
+        if (*nbjoueurs >= 2) {
+            // plato[yt2][xt2]='_';
+            plato[*yp2][*xp2] = 'B'; }
+        if (*nbjoueurs >= 3) {
+            //plato[yt3][xt3]='_';
+            plato[*yp3][*xp3] = 'C'; }
+        if (*nbjoueurs >= 4) {
+        //    plato[yt][xt]='_';
+            plato[*yp4][*xp4] = 'D'; }
+        //  printf("%d %d\n",xt2);
         for (int i = 0; i < 21; i++) {
             for (int j = 0; j < 27; j++) {
                 printf("%3c", plato[i][j]);
