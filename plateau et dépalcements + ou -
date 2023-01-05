@@ -51,7 +51,8 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                            {'_', '_', '#'},
                            {'#', '_', '#'}};*/
 
-
+    if( tuileEnPlus1[1][1]=='A' || tuileEnPlus1[1][1]=='B'|| tuileEnPlus1[1][1]=='C'|| tuileEnPlus1[1][1]=='D')
+    {tuileEnPlus1[1][1]='_';}
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             printf("%3c", tuileEnPlus1[i][j]);
@@ -185,13 +186,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
             } else if (ligne == 4) {
 
                 for (int i = 0; i < 3; i++) {
@@ -543,13 +538,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
             } else if (colonne == 4) {
 
                 for (int i = 0; i < 3; i++) {
@@ -606,13 +595,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
 
             } else if (colonne == 6) {
 
@@ -670,13 +653,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
             }
         } else if (sens2 == 1) {
             if (colonne == 2) {
@@ -793,13 +770,7 @@ void gros(char plato[21][27], char tuileEnPlus1[3][3]) {
                     }
                 }
 
-                for (int i = 0; i < 21; i++) {
-                    for (int j = 0; j < 27; j++) {
-                        printf("%3c", plato[i][j]);
-                    }
-                    printf("\n");
-                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
-                }
+
 
 
             } else if (colonne == 6) {
@@ -1383,7 +1354,7 @@ void plateau(int *nbjoueurs, int *parti) {
         if (*nbjoueurs >= 4) {
             plato[yt][xt]='_';
             plato[*yp4][*xp4] = 'D'; }
-          printf("%d %d\n",xt3);
+         
         for (int i = 0; i < 21; i++) {
             for (int j = 0; j < 27; j++) {
                 printf("%3c", plato[i][j]);
