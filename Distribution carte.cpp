@@ -28,7 +28,7 @@ void distributionCartes(char *cartes, int nbJoueur, char mains[][NUM_CARDS / 2])
 
 int main() {
     srand(time(NULL));
-
+    //A adapter avec les autres programmes
     int nbJoueur;
     printf("Nombre de joueurs (2-4): ");
     scanf("%d", &nbJoueur);
