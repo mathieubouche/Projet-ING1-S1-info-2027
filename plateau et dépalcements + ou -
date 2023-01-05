@@ -1008,7 +1008,7 @@ int menuprincipal(int *parti) {
 void plateau(int *nbjoueurs, int *parti) {
     int a;
     int i;
-    int xt, yt, xt1, yt1, xt2, yt2, xt3, yt3;
+    int xt= 25, yt=19, xt1=1, yt1=1, xt2=25, yt2=1, xt3=1, yt3=19;
     int *choix = &a;
     int x = 1;
     int y = 1;
@@ -1375,15 +1375,15 @@ void plateau(int *nbjoueurs, int *parti) {
         plato[yt1][xt1]='_';
         plato[*yp][*xp] = 'A';
         if (*nbjoueurs >= 2) {
-            // plato[yt2][xt2]='_';
+            plato[yt2][xt2]='_';
             plato[*yp2][*xp2] = 'B'; }
         if (*nbjoueurs >= 3) {
-            //plato[yt3][xt3]='_';
+            plato[yt3][xt3]='_';
             plato[*yp3][*xp3] = 'C'; }
         if (*nbjoueurs >= 4) {
-        //    plato[yt][xt]='_';
+            plato[yt][xt]='_';
             plato[*yp4][*xp4] = 'D'; }
-        //  printf("%d %d\n",xt2);
+          printf("%d %d\n",xt3);
         for (int i = 0; i < 21; i++) {
             for (int j = 0; j < 27; j++) {
                 printf("%3c", plato[i][j]);
