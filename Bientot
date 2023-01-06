@@ -40,7 +40,7 @@ void distributionCartes() {
 
     // Print les mains
     for (int i = 0; i < nbJoueur; i++) {
-        printf("Main du joueur %d: ", i + 1);
+        printf("Main du joueur %d: ", i + 1); // soit on enleve le print des cartes soit on ne l'enleve pas
         for (int j = 0; j < NOM_CARTES / nbJoueur; j++) {
             printf("%c ", mains[i][j]);
         }
@@ -106,7 +106,7 @@ void changcoo(int *x, int *y) {
     }
 }
 
-void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, int *x4, int *y4 /*Variable qui stocke la case au milieu*/) {
+void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, int *x4, int *y4 /* Variable qui stocke la case au milieu? */) {
     int a = *x, b = *y;
     char pion;
     if (tuile[1][1] == 'A') {
@@ -133,8 +133,10 @@ void deplacementTresors(char plato[21][27], int* x, int* y,int* a){
     char t;
     t = plato[*y][*x];
     //réussir a prendre la prochaine case sur laquelle il va arriver, donc reussir a prendre le futur deplacement du joueur
+    //creation de variables, pour stocker chaque variable sur laquelle chaque joueur se trouve dessus
     //stockage de la valeur sur laquelle il est arrivé
-    //quand c'est au tour du joueur et qu'il part, 
+    //quand c'est au tour du joueur et qu'il part, reaffecter le tresor a la case sur laquelle il etait
+    //On peut reussir a reprendre les coordonnées de chaque pion dans le sous programme "plateau"
 
 }
 
@@ -174,7 +176,8 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
         tuileEntrante[2][1] = r;
         tuileEntrante[2][0] = t;
         tuileEntrante[1][0] = y;
-    } else if (orientation == 3) {
+    }
+    else if (orientation == 3) {
         a = tuileEntrante[0][0];
         z = tuileEntrante[0][1];
         e = tuileEntrante[0][2];
@@ -193,7 +196,8 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
         tuileEntrante[2][0] = e;
         tuileEntrante[1][0] = r;
 
-    } else if (orientation == 4) {
+    }
+    else if (orientation == 4) {
         a = tuileEntrante[0][0];
         z = tuileEntrante[0][1];
         e = tuileEntrante[0][2];
@@ -1161,7 +1165,7 @@ void plateau(int *nbjoueurs, int *parti) {
     while (1 == 1) {
 
         if (etattour == 1) {
-            printf("tour joueur1\n");
+            printf("tour joueur 1\n");
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
 
@@ -1181,10 +1185,10 @@ void plateau(int *nbjoueurs, int *parti) {
                 }
                 thule = 0;
             }
-            printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
+            printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
             scanf("%d", choix);
             while (*choix <= 0 || *choix > 6) {
-                printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
+                printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
                 scanf("%d", choix);
             }
             xt1 = *xp;
@@ -1248,7 +1252,7 @@ void plateau(int *nbjoueurs, int *parti) {
 
         }
         if (etattour == 2) {
-            printf("tour joueur2\n");
+            printf("tour joueur 2\n");
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
@@ -1267,10 +1271,10 @@ void plateau(int *nbjoueurs, int *parti) {
 
                 thule = 0;
             }
-            printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
+            printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
             scanf("%d", choix);
             while (*choix <= 0 || *choix > 6) {
-                printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
+                printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
                 scanf("%d", choix);
             }
            // deplacementTresors()
@@ -1333,7 +1337,7 @@ void plateau(int *nbjoueurs, int *parti) {
         }
 
         if (etattour == 3) {
-            printf("tour joueur3\n");
+            printf("tour joueur 3\n");
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
@@ -1351,10 +1355,10 @@ void plateau(int *nbjoueurs, int *parti) {
                 }
                 thule = 0;
             }
-            printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
+            printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
             scanf("%d", choix);
             while (*choix <= 0 || *choix > 6) {
-                printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
+                printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
                 scanf("%d", choix);
             }
             xt3 = *xp3;
@@ -1405,7 +1409,7 @@ void plateau(int *nbjoueurs, int *parti) {
                 thule = 1;
             }
             if (*choix == 6) {
-                printf("retour au menu");
+                printf("retour au menu\n");
                 *parti = 2;
             }
         }
@@ -1417,7 +1421,7 @@ void plateau(int *nbjoueurs, int *parti) {
 
 
         if (etattour == 4) {
-            printf("tour joueur4\n");
+            printf("tour joueur 4\n");
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
@@ -1435,10 +1439,10 @@ void plateau(int *nbjoueurs, int *parti) {
                 }
                 thule = 0;
             }
-            printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
+            printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
             scanf("%d", choix);
             while (*choix <= 0 || *choix > 6) {
-                printf("deplacez vous 1 droite 2 gauche 3 haut 4 bas 5 tour suivant 6 retour au menu\n");
+                printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
                 scanf("%d", choix);
             }
             xt = *xp4;
@@ -1487,7 +1491,7 @@ void plateau(int *nbjoueurs, int *parti) {
                 thule = 1;
             }
             if (*choix == 6) {
-                printf("retour au menu");
+                printf("retour au menu\n");
                 *parti = 2;
             }
         }
@@ -1538,4 +1542,3 @@ int main() {
     }
     return 0;
 }
-
