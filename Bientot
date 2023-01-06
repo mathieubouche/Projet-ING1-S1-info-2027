@@ -6,30 +6,30 @@
 #define  NOM_CARTES 24
 
 
-void melangeCartes(char *cartes) {
+void melangeCartes(char *cartes) { //melange des cartes
     for (int i = 0; i < NOM_CARTES; i++) {
-        int j = rand() % NOM_CARTES;
+        int j = rand() % NOM_CARTES;//valeur du tableau que l'on echangera a chaque iteration
         char temp = cartes[i];
         cartes[i] = cartes[j];
         cartes[j] = temp;
     }
 }
 
-void distribution(char *cartes, int nbJoueur, char mains[][NOM_CARTES / 2]) {
+void distribution(char *cartes, int nbJoueur, char mains[][NOM_CARTES / 2]) {// distribue les cartes
     int cartesParJoueurs = NOM_CARTES / nbJoueur;
     for (int i = 0; i < nbJoueur; i++) {
         for (int j = 0; j < cartesParJoueurs; j++) {
-            mains[i][j] = cartes[i * cartesParJoueurs + j];
+            mains[i][j] = cartes[i * cartesParJoueurs + j]; //forme de la main [Numero joueur][numero de la carte]
         }
     }
 }
 
 void distributionCartes() {
     char cartes[NOM_CARTES] = {'!', '%', '*', '~', '=', '+', '&', '|', '@', '(', ')', '{', '}', '[', ']', ':', '/', ';',
-                               '.', '?', '^', '$', '<', '>'};
+                               '.', '?', '^', '$', '<', '>'}; //les cartes trésors
     char mains[4][NOM_CARTES / 2];
 
-    srand(time(NULL));
+    srand(time(NULL)); //randomization de rand()
     int nbJoueur;
     printf("Nombre de joueurs (2-4): ");
     scanf("%d", &nbJoueur);
@@ -60,7 +60,7 @@ int choixOrientation() {
 int choixColonne() {
     int choixcolonne;
     do {
-        printf("Quelle colonne souhaitez vous decaler?\n2, 4 ou 6\n0: aucune\n");
+        printf("Quelle colonne souhaitez vous decaler?\n2, 4 ou 6\n0: Ligne\n");
         scanf("%d", &choixcolonne);
     } while (!(choixcolonne == 0 || choixcolonne == 2 || choixcolonne == 4 || choixcolonne == 6));
     return choixcolonne;
@@ -69,9 +69,9 @@ int choixColonne() {
 int choixLigne() {
     int choixligne;
     do {
-        printf("Quelle ligne souhaitez vous decaler?\n2, 4 ou 6\n0: aucune\n");
+        printf("Quelle ligne souhaitez vous decaler?\n2, 4 ou 6\n0: Aucune\n");
         scanf("%d", &choixligne);
-    } while (!(choixligne == 0 || choixligne == 2 || choixligne == 4 || choixligne == 6));
+    } while (!(choixligne == 0 || choixligne == 2 || choixligne == 4 || choixligne == 6)); //peut etre enlevé le 0 parce que ca ne revient pas a choix colonne et c'est equivalent a ne pas placer de tuiles
     return choixligne;
 }
 
@@ -1277,7 +1277,7 @@ void plateau(int *nbjoueurs, int *parti) {
                 printf("deplacez vous :\n 1 droite\n 2 gauche\n 3 haut\n 4 bas\n 5 tour suivant\n 6 retour au menu\n");
                 scanf("%d", choix);
             }
-           // deplacementTresors()
+            // deplacementTresors()
             xt2 = *xp2;
             yt2 = *yp2;
             menudeplacements(choix, xp2, yp2);
@@ -1542,3 +1542,4 @@ int main() {
     }
     return 0;
 }
+
