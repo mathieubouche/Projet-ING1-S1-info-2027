@@ -1717,13 +1717,14 @@ int menuprincipal() {
         printf("nouvelle partie\n");
         printf("veuillez entrer le nombre de joueurs");
         scanf("%d", &nbjoueurs);
+        plateau(nbjoueurs2); 
 
         while (nbjoueurs < 1 || nbjoueurs > 4) {
             printf("veuillez entrer le nombre de joueurs");
             scanf("%d", &nbjoueurs);
         }
         
-        plateau(nbjoueurs2); 
+     
 
 
     }
