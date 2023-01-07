@@ -106,7 +106,7 @@ void changcoo(int *x, int *y) {
     }
 }
 
-void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, int *x4, int *y4,int* erreur,char* tp,char plato[21][27] /* Variable qui stocke la case au milieu? */) {
+void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, int *x4, int *y4,int* erreur,char* tp,char* tp2,char* tp3,char* tp4,char plato[21][27] /* Variable qui stocke la case au milieu? */) {
     int a = *x, b = *y;
     char pion;
     if (tuile[1][1] == 'A') {
@@ -118,20 +118,20 @@ void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, in
 
     if (tuile[1][1] == 'B') {
         changcoo(x2, y2);
-        tuile[1][1] = *tp;
-        *tp=plato[*y2][*x2];
+        tuile[1][1] = *tp2;
+        *tp2=plato[*y2][*x2];
         erreur=1;
     }
     if (tuile[1][1] == 'C') {
         changcoo(x3, y3);
-        tuile[1][1] = *tp;
-        *tp=plato[*y3][*x3];
+        tuile[1][1] = *tp3;
+        *tp3=plato[*y3][*x3];
         erreur=1;
     }
     if (tuile[1][1] == 'D') {
         changcoo(x4, y4);
-        tuile[1][1] = *tp;
-        *tp=plato[*y4][*x4];
+        tuile[1][1] = *tp4;
+        *tp4=plato[*y4][*x4];
         erreur=1;
     }
 }
@@ -1193,7 +1193,7 @@ void plateau(int *nbjoueurs, int *parti) {
             printf("tour joueur 1\n");
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
-                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp,tp1,plato);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp,tp1,tp2,tp3,tp4,plato);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -1284,7 +1284,7 @@ void plateau(int *nbjoueurs, int *parti) {
             *erreurp2=0;
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
-                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,  erreurp2,tp2,plato);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,  erreurp2,tp1,tp2,tp3,tp4,plato);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -1377,7 +1377,7 @@ void plateau(int *nbjoueurs, int *parti) {
             *erreurp3=0;
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
-                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp3,tp3,plato);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp3,tp1,tp2,tp3,tp4,plato);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -1468,7 +1468,7 @@ void plateau(int *nbjoueurs, int *parti) {
             *erreurp4=0;
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
-                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp4,tp4,plato);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp4,tp1,tp2,tp3,tp4,plato);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
