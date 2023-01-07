@@ -1700,9 +1700,9 @@ int menudeplacements(int *choix, int *x, int *y, int *erreur /*,int* tab[27][27]
     }
 }
 
-int menuprincipal() {
+int menuprincipal(int* nbjoueurs) {
     int choix;
-    int nbjoueurs;
+   
     
     printf("1: nouvelle partie \n2: sauvegarder\n3: charger une partie\n"
            "4: afficher les regles et credits\n5: quitter\n");
@@ -1716,12 +1716,12 @@ int menuprincipal() {
     if (choix == 1) {
         printf("nouvelle partie\n");
         printf("veuillez entrer le nombre de joueurs");
-        scanf("%d", &nbjoueurs);
+        scanf("%d", nbjoueurs);
         plateau(nbjoueurs2); 
 
         while (nbjoueurs < 1 || nbjoueurs > 4) {
             printf("veuillez entrer le nombre de joueurs");
-            scanf("%d", &nbjoueurs);
+            scanf("%d", nbjoueurs);
         }
         
      
