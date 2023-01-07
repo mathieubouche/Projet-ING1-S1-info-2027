@@ -1,0 +1,2419 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <windows.h>
+
+#define NOM_CARTES 24
+
+
+void melangeCartes(char *cartes) { //melange des cartes
+    for (int i = 0; i < NOM_CARTES; i++) {
+        int j = rand() % NOM_CARTES;//valeur du tableau que l'on echangera a chaque iteration
+        char temp = cartes[i];
+        cartes[i] = cartes[j];
+        cartes[j] = temp;
+    }
+}
+
+void distribution(char *cartes, int *nbJoueurs, char mains[4][NOM_CARTES]) { // distribue les cartes
+    int cartesParJoueurs = NOM_CARTES / (*nbJoueurs);
+    for (int i = 0; i < *nbJoueurs; i++) {
+        for (int j = 0; j < cartesParJoueurs; j++) {
+            mains[i][j] = cartes[i * cartesParJoueurs + j]; //forme de la main [Numero joueur][numero de la carte]
+        }
+    }
+}
+
+void distributionCartes(int *nbJoueurs, char mains[4][NOM_CARTES]) { //fusion du melange et de la distribution
+    char cartes[NOM_CARTES] = {'!', '%', '*', '~', '=', '+', '&', '|', '@', '(', ')', '{', '}', '[', ']', ':', '/', ';',
+                               '.', '?', '^', '$', '<', '>'}; //les cartes trésors
+
+
+    srand(time(NULL)); //randomization de rand()
+
+    melangeCartes(cartes);
+
+    distribution(cartes, nbJoueurs, mains);
+
+    // Print les mains
+    for (int i = 0; i < (*nbJoueurs); i++) {
+        printf("Main du joueur %d: ", i + 1); // soit on enleve le print des cartes soit on ne l'enleve pas
+        for (int j = 0; j < NOM_CARTES / (*nbJoueurs); j++) {
+            printf("%c ", mains[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int choixOrientation() { //choix de l'orientation de la tuile
+    int choix;
+    do {
+        printf("Dans quel sens voulez vous tourner la tuile:\n1: Base(la facon dont elle est sortie)\n2: 90 degres sens horaire\n3: 180 degres\n4: 90 degres sens anti horaire\n");
+        scanf("%d", &choix);
+    } while (!(choix == 1 || choix == 2 || choix == 3 || choix == 4));
+    return choix;
+}
+
+int choixColonne() {
+    int choixcolonne;
+    do {
+        printf("Quelle colonne souhaitez vous decaler?\n2, 4 ou 6\n0: Ligne\n");
+        scanf("%d", &choixcolonne);
+    } while (!(choixcolonne == 0 || choixcolonne == 2 || choixcolonne == 4 || choixcolonne == 6));
+    return choixcolonne;
+}
+
+int choixLigne() {
+    int choixligne;
+    do {
+        printf("Quelle ligne souhaitez vous decaler?\n2, 4 ou 6\n0: Aucune\n");
+        scanf("%d", &choixligne);
+    } while (!(choixligne == 0 || choixligne == 2 || choixligne == 4 || choixligne ==
+                                                                        6)); //peut etre enlevé le 0 parce que ca ne revient pas a choix colonne et c'est equivalent a ne pas placer de tuiles
+    return choixligne;
+}
+
+int choixHB() {
+    int choixsens;
+    printf("Par ou voulez vous inserer la tuile?\n1:Haut\n2:Bas\n");
+    scanf("%d", &choixsens);
+    return choixsens;
+}
+
+int choixGD() {
+    int choixsens2;
+    printf("Par ou voulez vous inserer la tuile?\n1:Gauche\n2:Droite\n");
+    scanf("%d", &choixsens2);
+    return choixsens2;
+}
+
+void creaPlato(char plato[21][27]) {
+    char tuiletreL1[3][3] = {{'#', '_', '#'},//1
+                             {'#', '!', '_'},
+                             {'#', '#', '#'}};
+
+    char tuiletreL2[3][3] = {{'#', '#', '#'},//2
+                             {'#', '%', '_'},
+                             {'#', '_', '#'}};
+
+    char tuiletreL3[3][3] = {{'#', '#', '#'},//3
+                             {'_', '*', '#'},
+                             {'#', '_', '#'}};
+
+    char tuiletreL4[3][3] = {{'#', '_', '#'},//4
+                             {'_', '~', '#'},
+                             {'#', '#', '#'}};
+
+    char tuiletreL5[3][3] = {{'#', '#', '#'},//5
+                             {'_', '=', '#'},
+                             {'#', '_', '#'}};
+
+    char tuiletreL6[3][3] = {{'#', '_', '#'},//6
+                             {'_', '+', '#'},
+                             {'#', '#', '#'}};
+
+    char tuileL1[3][3] = {{'#', '_', '#'},//7
+                          {'#', '_', '_'},
+                          {'#', '#', '#'}};
+
+    char tuileL2[3][3] = {{'#', '#', '#'},//a
+                          {'#', '_', '_'},
+                          {'#', '_', '#'}};
+
+    char tuileL3[3][3] = {{'#', '#', '#'},//z
+                          {'_', '_', '#'},
+                          {'#', '_', '#'}};
+
+    char tuileL4[3][3] = {{'#', '_', '#'},//e
+                          {'_', '_', '#'},
+                          {'#', '#', '#'}};
+
+    char tuileL5[3][3] = {{'#', '_', '#'},//r
+                          {'#', '_', '_'},
+                          {'#', '#', '#'}};
+
+    char tuileL6[3][3] = {{'#', '_', '#'},//t
+                          {'_', '_', '#'},
+                          {'#', '#', '#'}};
+
+    char tuileL7[3][3] = {{'#', '#', '#'},//y
+                          {'#', '_', '_'},
+                          {'#', '_', '#'}};
+
+    char tuileL8[3][3] = {{'#', '#', '#'},//u
+                          {'_', '_', '#'},
+                          {'#', '_', '#'}};
+
+    char tuileL9[3][3] = {{'#', '_', '#'},//i
+                          {'_', '_', '#'},
+                          {'#', '#', '#'}};
+
+    char tuileL10[3][3] = {{'#', '#', '#'},//o
+                           {'_', '_', '#'},
+                           {'#', '_', '#'}};
+
+
+    char tuileI1[3][3] = {{'#', '_', '#'},//p
+                          {'#', '_', '#'},
+                          {'#', '_', '#'}};
+
+    char tuileI2[3][3] = {{'#', '#', '#'},//q
+                          {'_', '_', '_'},
+                          {'#', '#', '#'}};
+
+    char tuileI3[3][3] = {{'#', '_', '#'},//s
+                          {'#', '_', '#'},
+                          {'#', '_', '#'}};
+
+    char tuileI4[3][3] = {{'#', '#', '#'},//d
+                          {'_', '_', '_'},
+                          {'#', '#', '#'}};
+
+    char tuileI5[3][3] = {{'#', '_', '#'},//f
+                          {'#', '_', '#'},
+                          {'#', '_', '#'}};
+
+    char tuileI6[3][3] = {{'#', '#', '#'},//g
+                          {'_', '_', '_'},
+                          {'#', '#', '#'}};
+
+    char tuileI7[3][3] = {{'#', '_', '#'},//h
+                          {'#', '_', '#'},
+                          {'#', '_', '#'}};
+
+    char tuileI8[3][3] = {{'#', '#', '#'},//j
+                          {'_', '_', '_'},
+                          {'#', '#', '#'}};
+
+    char tuileI9[3][3] = {{'#', '_', '#'},//k
+                          {'#', '_', '#'},
+                          {'#', '_', '#'}};
+
+    char tuileI10[3][3] = {{'#', '#', '#'},//l
+                           {'_', '_', '_'},
+                           {'#', '#', '#'}};
+
+    char tuileI11[3][3] = {{'#', '_', '#'},//m
+                           {'#', '_', '#'},
+                           {'#', '_', '#'}};
+
+    char tuileI12[3][3] = {{'#', '#', '#'},//w
+                           {'_', '_', '_'},
+                           {'#', '#', '#'}};
+
+
+    char tuileT1[3][3] = {{'#', '_', '#'},//x
+                          {'#', '.', '_'},
+                          {'#', '_', '#'}};
+
+    char tuileT2[3][3] = {{'#', '_', '#'},//c
+                          {'_', '?', '#'},
+                          {'#', '_', '#'}};
+
+    char tuileT3[3][3] = {{'#', '_', '#'},//v
+                          {'_', '^', '_'},
+                          {'#', '#', '#'}};
+
+    char tuileT4[3][3] = {{'#', '#', '#'},//b
+                          {'_', '$', '_'},
+                          {'#', '_', '#'}};
+
+    char tuileT5[3][3] = {{'#', '_', '#'},//n
+                          {'_', '<', '_'},
+                          {'#', '#', '#'}};
+
+    char tuileT6[3][3] = {{'#', '#', '#'},// tuileEnPlus
+                          {'_', '>', '_'},
+                          {'#', '_', '#'}};
+
+
+    srand(time(NULL));
+
+    char tab[33] = {'a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o',
+                    'p', 'q', 's', 'd', 'f', 'g', 'h',
+                    'j', 'k', 'l', 'm', '5', '6', '7',
+                    'w', 'x', 'c', 'v', 'b', 'n', '1', '2', '3', '4'};
+
+    for (int i = 32; i > 0; i--) {
+        int j = rand() % (i + 1);
+        int temp = tab[i];
+        tab[i] = tab[j];
+        tab[j] = temp;
+    }
+
+    plato[1][5] = tab[0];
+    plato[1][13] = tab[1];
+    plato[1][21] = tab[2];
+
+    plato[4][1] = tab[3];
+    plato[4][5] = tab[4];
+    plato[4][9] = tab[5];
+    plato[4][13] = tab[6];
+    plato[4][17] = tab[7];
+    plato[4][21] = tab[8];
+    plato[4][25] = tab[9];
+
+    plato[7][5] = tab[10];
+    plato[7][13] = tab[11];
+    plato[7][21] = tab[12];
+
+    plato[10][1] = tab[13];
+    plato[10][5] = tab[14];
+    plato[10][9] = tab[15];
+    plato[10][13] = tab[16];
+    plato[10][17] = tab[17];
+    plato[10][21] = tab[18];
+    plato[10][25] = tab[19];
+
+    plato[13][5] = tab[20];
+    plato[13][13] = tab[21];
+    plato[13][21] = tab[22];
+
+    plato[16][1] = tab[23];
+    plato[16][5] = tab[24];
+    plato[16][9] = tab[25];
+    plato[16][13] = tab[26];
+    plato[16][17] = tab[27];
+    plato[16][21] = tab[28];
+    plato[16][25] = tab[29];
+
+    plato[19][5] = tab[30];
+    plato[19][13] = tab[31];
+    plato[19][21] = tab[32];
+
+
+    for (int i = 0; i < 21; i++) {
+        for (int j = 0; j < 27; j++) {
+            if (plato[i][j] == 'a') {
+                plato[i - 1][j - 1] = tuileL1[0][0];
+                plato[i][j - 1] = tuileL1[1][0];
+                plato[i + 1][j - 1] = tuileL1[2][0];
+
+                plato[i - 1][j] = tuileL1[0][1];
+                plato[i][j] = tuileL1[1][1];
+                plato[i + 1][j] = tuileL1[2][1];
+
+                plato[i - 1][j + 1] = tuileL1[0][2];
+                plato[i][j + 1] = tuileL1[1][2];
+                plato[i + 1][j + 1] = tuileL1[2][2];
+
+            }
+            if (plato[i][j] == 'z') {
+                plato[i - 1][j - 1] = tuileL2[0][0];
+                plato[i][j - 1] = tuileL2[1][0];
+                plato[i + 1][j - 1] = tuileL2[2][0];
+
+                plato[i - 1][j] = tuileL2[0][1];
+                plato[i][j] = tuileL2[1][1];
+                plato[i + 1][j] = tuileL2[2][1];
+
+                plato[i - 1][j + 1] = tuileL2[0][2];
+                plato[i][j + 1] = tuileL2[1][2];
+                plato[i + 1][j + 1] = tuileL2[2][2];
+
+            }
+            if (plato[i][j] == 'e') {
+                plato[i - 1][j - 1] = tuileL3[0][0];
+                plato[i][j - 1] = tuileL3[1][0];
+                plato[i + 1][j - 1] = tuileL3[2][0];
+
+                plato[i - 1][j] = tuileL3[0][1];
+                plato[i][j] = tuileL3[1][1];
+                plato[i + 1][j] = tuileL3[2][1];
+
+                plato[i - 1][j + 1] = tuileL3[0][2];
+                plato[i][j + 1] = tuileL3[1][2];
+                plato[i + 1][j + 1] = tuileL3[2][2];
+
+            }
+            if (plato[i][j] == 'r') {
+                plato[i - 1][j - 1] = tuileL4[0][0];
+                plato[i][j - 1] = tuileL4[1][0];
+                plato[i + 1][j - 1] = tuileL4[2][0];
+
+                plato[i - 1][j] = tuileL4[0][1];
+                plato[i][j] = tuileL4[1][1];
+                plato[i + 1][j] = tuileL4[2][1];
+
+                plato[i - 1][j + 1] = tuileL4[0][2];
+                plato[i][j + 1] = tuileL4[1][2];
+                plato[i + 1][j + 1] = tuileL4[2][2];
+
+            }
+            if (plato[i][j] == 't') {
+                plato[i - 1][j - 1] = tuileL5[0][0];
+                plato[i][j - 1] = tuileL5[1][0];
+                plato[i + 1][j - 1] = tuileL5[2][0];
+
+                plato[i - 1][j] = tuileL5[0][1];
+                plato[i][j] = tuileL5[1][1];
+                plato[i + 1][j] = tuileL5[2][1];
+
+                plato[i - 1][j + 1] = tuileL5[0][2];
+                plato[i][j + 1] = tuileL5[1][2];
+                plato[i + 1][j + 1] = tuileL5[2][2];
+
+            }
+            if (plato[i][j] == 'y') {
+                plato[i - 1][j - 1] = tuileL6[0][0];
+                plato[i][j - 1] = tuileL6[1][0];
+                plato[i + 1][j - 1] = tuileL6[2][0];
+
+                plato[i - 1][j] = tuileL6[0][1];
+                plato[i][j] = tuileL6[1][1];
+                plato[i + 1][j] = tuileL6[2][1];
+
+                plato[i - 1][j + 1] = tuileL6[0][2];
+                plato[i][j + 1] = tuileL6[1][2];
+                plato[i + 1][j + 1] = tuileL6[2][2];
+
+            }
+            if (plato[i][j] == 'u') {
+                plato[i - 1][j - 1] = tuileL7[0][0];
+                plato[i][j - 1] = tuileL7[1][0];
+                plato[i + 1][j - 1] = tuileL7[2][0];
+
+                plato[i - 1][j] = tuileL7[0][1];
+                plato[i][j] = tuileL7[1][1];
+                plato[i + 1][j] = tuileL7[2][1];
+
+                plato[i - 1][j + 1] = tuileL7[0][2];
+                plato[i][j + 1] = tuileL7[1][2];
+                plato[i + 1][j + 1] = tuileL7[2][2];
+
+            }
+            if (plato[i][j] == 'i') {
+                plato[i - 1][j - 1] = tuileL8[0][0];
+                plato[i][j - 1] = tuileL8[1][0];
+                plato[i + 1][j - 1] = tuileL8[2][0];
+
+                plato[i - 1][j] = tuileL8[0][1];
+                plato[i][j] = tuileL8[1][1];
+                plato[i + 1][j] = tuileL8[2][1];
+
+                plato[i - 1][j + 1] = tuileL8[0][2];
+                plato[i][j + 1] = tuileL8[1][2];
+                plato[i + 1][j + 1] = tuileL8[2][2];
+
+            }
+            if (plato[i][j] == 'o') {
+                plato[i - 1][j - 1] = tuileL9[0][0];
+                plato[i][j - 1] = tuileL9[1][0];
+                plato[i + 1][j - 1] = tuileL9[2][0];
+
+                plato[i - 1][j] = tuileL9[0][1];
+                plato[i][j] = tuileL9[1][1];
+                plato[i + 1][j] = tuileL9[2][1];
+
+                plato[i - 1][j + 1] = tuileL9[0][2];
+                plato[i][j + 1] = tuileL9[1][2];
+                plato[i + 1][j + 1] = tuileL9[2][2];
+
+            }
+            if (plato[i][j] == 'p') {
+                plato[i - 1][j - 1] = tuileL10[0][0];
+                plato[i][j - 1] = tuileL10[1][0];
+                plato[i + 1][j - 1] = tuileL10[2][0];
+
+                plato[i - 1][j] = tuileL10[0][1];
+                plato[i][j] = tuileL10[1][1];
+                plato[i + 1][j] = tuileL10[2][1];
+
+                plato[i - 1][j + 1] = tuileL10[0][2];
+                plato[i][j + 1] = tuileL10[1][2];
+                plato[i + 1][j + 1] = tuileL10[2][2];
+
+            }
+            if (plato[i][j] == 'q') {
+                plato[i - 1][j - 1] = tuiletreL1[0][0];
+                plato[i][j - 1] = tuiletreL1[1][0];
+                plato[i + 1][j - 1] = tuiletreL1[2][0];
+
+                plato[i - 1][j] = tuiletreL1[0][1];
+                plato[i][j] = tuiletreL1[1][1];
+                plato[i + 1][j] = tuiletreL1[2][1];
+
+                plato[i - 1][j + 1] = tuiletreL1[0][2];
+                plato[i][j + 1] = tuiletreL1[1][2];
+                plato[i + 1][j + 1] = tuiletreL1[2][2];
+
+            }
+            if (plato[i][j] == 's') {
+                plato[i - 1][j - 1] = tuiletreL2[0][0];
+                plato[i][j - 1] = tuiletreL2[1][0];
+                plato[i + 1][j - 1] = tuiletreL2[2][0];
+
+                plato[i - 1][j] = tuiletreL2[0][1];
+                plato[i][j] = tuiletreL2[1][1];
+                plato[i + 1][j] = tuiletreL2[2][1];
+
+                plato[i - 1][j + 1] = tuiletreL2[0][2];
+                plato[i][j + 1] = tuiletreL2[1][2];
+                plato[i + 1][j + 1] = tuiletreL2[2][2];
+
+            }
+            if (plato[i][j] == 'd') {
+                plato[i - 1][j - 1] = tuiletreL3[0][0];
+                plato[i][j - 1] = tuiletreL3[1][0];
+                plato[i + 1][j - 1] = tuiletreL3[2][0];
+
+                plato[i - 1][j] = tuiletreL3[0][1];
+                plato[i][j] = tuiletreL3[1][1];
+                plato[i + 1][j] = tuiletreL3[2][1];
+
+                plato[i - 1][j + 1] = tuiletreL3[0][2];
+                plato[i][j + 1] = tuiletreL3[1][2];
+                plato[i + 1][j + 1] = tuiletreL3[2][2];
+
+            }
+            if (plato[i][j] == 'f') {
+                plato[i - 1][j - 1] = tuiletreL4[0][0];
+                plato[i][j - 1] = tuiletreL4[1][0];
+                plato[i + 1][j - 1] = tuiletreL4[2][0];
+
+                plato[i - 1][j] = tuiletreL4[0][1];
+                plato[i][j] = tuiletreL4[1][1];
+                plato[i + 1][j] = tuiletreL4[2][1];
+
+                plato[i - 1][j + 1] = tuiletreL4[0][2];
+                plato[i][j + 1] = tuiletreL4[1][2];
+                plato[i + 1][j + 1] = tuiletreL4[2][2];
+
+            }
+            if (plato[i][j] == 'g') {
+                plato[i - 1][j - 1] = tuiletreL5[0][0];
+                plato[i][j - 1] = tuiletreL5[1][0];
+                plato[i + 1][j - 1] = tuiletreL5[2][0];
+
+                plato[i - 1][j] = tuiletreL5[0][1];
+                plato[i][j] = tuiletreL5[1][1];
+                plato[i + 1][j] = tuiletreL5[2][1];
+
+                plato[i - 1][j + 1] = tuiletreL5[0][2];
+                plato[i][j + 1] = tuiletreL5[1][2];
+                plato[i + 1][j + 1] = tuiletreL5[2][2];
+
+            }
+            if (plato[i][j] == 'h') {
+                plato[i - 1][j - 1] = tuiletreL6[0][0];
+                plato[i][j - 1] = tuiletreL6[1][0];
+                plato[i + 1][j - 1] = tuiletreL6[2][0];
+
+                plato[i - 1][j] = tuiletreL6[0][1];
+                plato[i][j] = tuiletreL6[1][1];
+                plato[i + 1][j] = tuiletreL6[2][1];
+
+                plato[i - 1][j + 1] = tuiletreL6[0][2];
+                plato[i][j + 1] = tuiletreL6[1][2];
+                plato[i + 1][j + 1] = tuiletreL6[2][2];
+
+            }
+
+            if (plato[i][j] == 'j') {
+                plato[i - 1][j - 1] = tuileI1[0][0];
+                plato[i][j - 1] = tuileI1[1][0];
+                plato[i + 1][j - 1] = tuileI1[2][0];
+
+                plato[i - 1][j] = tuileI1[0][1];
+                plato[i][j] = tuileI1[1][1];
+                plato[i + 1][j] = tuileI1[2][1];
+
+                plato[i - 1][j + 1] = tuileI1[0][2];
+                plato[i][j + 1] = tuileI1[1][2];
+                plato[i + 1][j + 1] = tuileI1[2][2];
+
+            }
+            if (plato[i][j] == 'k') {
+                plato[i - 1][j - 1] = tuileI2[0][0];
+                plato[i][j - 1] = tuileI2[1][0];
+                plato[i + 1][j - 1] = tuileI2[2][0];
+
+                plato[i - 1][j] = tuileI2[0][1];
+                plato[i][j] = tuileI2[1][1];
+                plato[i + 1][j] = tuileI2[2][1];
+
+                plato[i - 1][j + 1] = tuileI2[0][2];
+                plato[i][j + 1] = tuileI2[1][2];
+                plato[i + 1][j + 1] = tuileI2[2][2];
+
+            }
+            if (plato[i][j] == 'l') {
+                plato[i - 1][j - 1] = tuileI3[0][0];
+                plato[i][j - 1] = tuileI3[1][0];
+                plato[i + 1][j - 1] = tuileI3[2][0];
+
+                plato[i - 1][j] = tuileI3[0][1];
+                plato[i][j] = tuileI3[1][1];
+                plato[i + 1][j] = tuileI3[2][1];
+
+                plato[i - 1][j + 1] = tuileI3[0][2];
+                plato[i][j + 1] = tuileI3[1][2];
+                plato[i + 1][j + 1] = tuileI3[2][2];
+
+            }
+            if (plato[i][j] == 'm') {
+                plato[i - 1][j - 1] = tuileI4[0][0];
+                plato[i][j - 1] = tuileI4[1][0];
+                plato[i + 1][j - 1] = tuileI4[2][0];
+
+                plato[i - 1][j] = tuileI4[0][1];
+                plato[i][j] = tuileI4[1][1];
+                plato[i + 1][j] = tuileI4[2][1];
+
+                plato[i - 1][j + 1] = tuileI4[0][2];
+                plato[i][j + 1] = tuileI4[1][2];
+                plato[i + 1][j + 1] = tuileI4[2][2];
+
+            }
+            if (plato[i][j] == 'w') {
+                plato[i - 1][j - 1] = tuileI5[0][0];
+                plato[i][j - 1] = tuileI5[1][0];
+                plato[i + 1][j - 1] = tuileI5[2][0];
+
+                plato[i - 1][j] = tuileI5[0][1];
+                plato[i][j] = tuileI5[1][1];
+                plato[i + 1][j] = tuileI5[2][1];
+
+                plato[i - 1][j + 1] = tuileI5[0][2];
+                plato[i][j + 1] = tuileI5[1][2];
+                plato[i + 1][j + 1] = tuileI5[2][2];
+
+            }
+            if (plato[i][j] == 'x') {
+                plato[i - 1][j - 1] = tuileI6[0][0];
+                plato[i][j - 1] = tuileI6[1][0];
+                plato[i + 1][j - 1] = tuileI6[2][0];
+
+                plato[i - 1][j] = tuileI6[0][1];
+                plato[i][j] = tuileI6[1][1];
+                plato[i + 1][j] = tuileI6[2][1];
+
+                plato[i - 1][j + 1] = tuileI6[0][2];
+                plato[i][j + 1] = tuileI6[1][2];
+                plato[i + 1][j + 1] = tuileI6[2][2];
+
+            }
+            if (plato[i][j] == 'c') {
+                plato[i - 1][j - 1] = tuileI7[0][0];
+                plato[i][j - 1] = tuileI7[1][0];
+                plato[i + 1][j - 1] = tuileI7[2][0];
+
+                plato[i - 1][j] = tuileI7[0][1];
+                plato[i][j] = tuileI7[1][1];
+                plato[i + 1][j] = tuileI7[2][1];
+
+                plato[i - 1][j + 1] = tuileI7[0][2];
+                plato[i][j + 1] = tuileI7[1][2];
+                plato[i + 1][j + 1] = tuileI7[2][2];
+
+            }
+            if (plato[i][j] == 'v') {
+                plato[i - 1][j - 1] = tuileI8[0][0];
+                plato[i][j - 1] = tuileI8[1][0];
+                plato[i + 1][j - 1] = tuileI8[2][0];
+
+                plato[i - 1][j] = tuileI8[0][1];
+                plato[i][j] = tuileI8[1][1];
+                plato[i + 1][j] = tuileI8[2][1];
+
+                plato[i - 1][j + 1] = tuileI8[0][2];
+                plato[i][j + 1] = tuileI8[1][2];
+                plato[i + 1][j + 1] = tuileI8[2][2];
+
+            }
+            if (plato[i][j] == 'b') {
+                plato[i - 1][j - 1] = tuileI9[0][0];
+                plato[i][j - 1] = tuileI9[1][0];
+                plato[i + 1][j - 1] = tuileI9[2][0];
+
+                plato[i - 1][j] = tuileI9[0][1];
+                plato[i][j] = tuileI9[1][1];
+                plato[i + 1][j] = tuileI9[2][1];
+
+                plato[i - 1][j + 1] = tuileI9[0][2];
+                plato[i][j + 1] = tuileI9[1][2];
+                plato[i + 1][j + 1] = tuileI9[2][2];
+
+            }
+            if (plato[i][j] == 'n') {
+                plato[i - 1][j - 1] = tuileI10[0][0];
+                plato[i][j - 1] = tuileI10[1][0];
+                plato[i + 1][j - 1] = tuileI10[2][0];
+
+                plato[i - 1][j] = tuileI10[0][1];
+                plato[i][j] = tuileI10[1][1];
+                plato[i + 1][j] = tuileI10[2][1];
+
+                plato[i - 1][j + 1] = tuileI10[0][2];
+                plato[i][j + 1] = tuileI10[1][2];
+                plato[i + 1][j + 1] = tuileI10[2][2];
+
+            }
+            if (plato[i][j] == '1') {
+                plato[i - 1][j - 1] = tuileI11[0][0];
+                plato[i][j - 1] = tuileI11[1][0];
+                plato[i + 1][j - 1] = tuileI11[2][0];
+
+                plato[i - 1][j] = tuileI11[0][1];
+                plato[i][j] = tuileI11[1][1];
+                plato[i + 1][j] = tuileI11[2][1];
+
+                plato[i - 1][j + 1] = tuileI11[0][2];
+                plato[i][j + 1] = tuileI11[1][2];
+                plato[i + 1][j + 1] = tuileI11[2][2];
+
+            }
+            if (plato[i][j] == '2') {
+                plato[i - 1][j - 1] = tuileI12[0][0];
+                plato[i][j - 1] = tuileI12[1][0];
+                plato[i + 1][j - 1] = tuileI12[2][0];
+
+                plato[i - 1][j] = tuileI12[0][1];
+                plato[i][j] = tuileI12[1][1];
+                plato[i + 1][j] = tuileI12[2][1];
+
+                plato[i - 1][j + 1] = tuileI12[0][2];
+                plato[i][j + 1] = tuileI12[1][2];
+                plato[i + 1][j + 1] = tuileI12[2][2];
+
+            }
+
+            if (plato[i][j] == '3') {
+                plato[i - 1][j - 1] = tuileT1[0][0];
+                plato[i][j - 1] = tuileT1[1][0];
+                plato[i + 1][j - 1] = tuileT1[2][0];
+
+                plato[i - 1][j] = tuileT1[0][1];
+                plato[i][j] = tuileT1[1][1];
+                plato[i + 1][j] = tuileT1[2][1];
+
+                plato[i - 1][j + 1] = tuileT1[0][2];
+                plato[i][j + 1] = tuileT1[1][2];
+                plato[i + 1][j + 1] = tuileT1[2][2];
+
+            }
+            if (plato[i][j] == '4') {
+                plato[i - 1][j - 1] = tuileT2[0][0];
+                plato[i][j - 1] = tuileT2[1][0];
+                plato[i + 1][j - 1] = tuileT2[2][0];
+
+                plato[i - 1][j] = tuileT2[0][1];
+                plato[i][j] = tuileT2[1][1];
+                plato[i + 1][j] = tuileT2[2][1];
+
+                plato[i - 1][j + 1] = tuileT2[0][2];
+                plato[i][j + 1] = tuileT2[1][2];
+                plato[i + 1][j + 1] = tuileT2[2][2];
+
+            }
+            if (plato[i][j] == '5') {
+                plato[i - 1][j - 1] = tuileT3[0][0];
+                plato[i][j - 1] = tuileT3[1][0];
+                plato[i + 1][j - 1] = tuileT3[2][0];
+
+                plato[i - 1][j] = tuileT3[0][1];
+                plato[i][j] = tuileT3[1][1];
+                plato[i + 1][j] = tuileT3[2][1];
+
+                plato[i - 1][j + 1] = tuileT3[0][2];
+                plato[i][j + 1] = tuileT3[1][2];
+                plato[i + 1][j + 1] = tuileT3[2][2];
+
+            }
+            if (plato[i][j] == '6') {
+                plato[i - 1][j - 1] = tuileT4[0][0];
+                plato[i][j - 1] = tuileT4[1][0];
+                plato[i + 1][j - 1] = tuileT4[2][0];
+
+                plato[i - 1][j] = tuileT4[0][1];
+                plato[i][j] = tuileT4[1][1];
+                plato[i + 1][j] = tuileT4[2][1];
+
+                plato[i - 1][j + 1] = tuileT4[0][2];
+                plato[i][j + 1] = tuileT4[1][2];
+                plato[i + 1][j + 1] = tuileT4[2][2];
+
+            }
+            if (plato[i][j] == '7') {
+                plato[i - 1][j - 1] = tuileT5[0][0];
+                plato[i][j - 1] = tuileT5[1][0];
+                plato[i + 1][j - 1] = tuileT5[2][0];
+
+                plato[i - 1][j] = tuileT5[0][1];
+                plato[i][j] = tuileT5[1][1];
+                plato[i + 1][j] = tuileT5[2][1];
+
+                plato[i - 1][j + 1] = tuileT5[0][2];
+                plato[i][j + 1] = tuileT5[1][2];
+                plato[i + 1][j + 1] = tuileT5[2][2];
+
+            }
+
+
+        }
+    }
+}
+
+void changcoo(int *x, int *y) {
+
+
+    if (*x == 1) {
+        *x = 25;
+    } else if (*x == 25) {
+        *x = 1;
+    }
+    if (*y == 19) {
+        *y = 1;
+    } else if (*y == 1) {
+        *y = 19;
+
+    }
+}
+
+void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, int *x4, int *y4, int *erreur,int *erreur2,int *erreur3,int *erreur4, char *tp,char *tp2, char *tp3, char *tp4, char plato[21][27]) {
+    int a = *x, b = *y;
+    char pion;
+    if (tuile[1][1] == 'A') {
+        changcoo(x, y);
+        tuile[1][1] = *tp;
+        *tp = plato[*y][*x];
+        *erreur = 1;
+    }
+
+    if (tuile[1][1] == 'B') {
+        changcoo(x2, y2);
+        tuile[1][1] = *tp2;
+        *tp2 = plato[*y2][*x2];
+        *erreur2 = 1;
+    }
+    if (tuile[1][1] == 'C') {
+        changcoo(x3, y3);
+        tuile[1][1] = *tp3;
+        *tp3 = plato[*y3][*x3];
+        *erreur3 = 1;
+    }
+    if (tuile[1][1] == 'D') {
+        changcoo(x4, y4);
+        tuile[1][1] = *tp4;
+        *tp4 = plato[*y4][*x4];
+        *erreur4 = 1;
+    }
+}
+
+int detectionTresors(int *nbjoueur, char mains[4][24], char *tp, char *tp2, char *tp3, char *tp4,int *etp,int *etp2,int *etp3,int *etp4) {
+
+    int cpt , cpt2, cpt3 , cpt4; //compteur de point
+    if(*nbjoueur==1)cpt=24;
+    if(*nbjoueur==2){
+        cpt = 12;
+        cpt2 = 12;
+    }
+    if(*nbjoueur==3){
+        cpt = 8;
+        cpt2 = 8;
+        cpt3 = 8;
+    }
+    if(*nbjoueur==4){
+        cpt = 6;
+        cpt2 = 6;
+        cpt3 = 6;
+        cpt4 = 6;
+    }
+
+
+    if (*nbjoueur >= 1) {
+        for (int i = 0; i < NOM_CARTES/(*nbjoueur) ; i++) {
+            if (*tp == mains[0][i]) {
+                cpt--;
+                *tp = '_';
+                mains[0][i] = 'X';
+                printf("Il reste %d trésors a trouver pour le joueur 1\n", cpt);
+                *etp=1;
+            }
+        }
+        printf("\n");
+    }
+    if (*nbjoueur >= 2) {
+        for (int i = 0; i < NOM_CARTES/(*nbjoueur) ; i++) {
+            if (*tp2 == mains[1][i]) {
+                cpt2--;
+                *tp2 = '_';
+                mains[1][i] = 'X';
+                printf("Il reste %d trésors a trouver pour le joueur 2\n", cpt2);
+                *etp2=1;
+            }
+        }
+        printf("\n");
+    }
+    if (*nbjoueur >= 3) {
+        for (int i = 0; i < NOM_CARTES / (*nbjoueur); i++) {
+            if (*tp3 == mains[2][i]) {
+                cpt3--;
+                *tp3 = '_';
+                mains[2][i] = 'X';
+                printf("Il reste %d trésors a trouver pour le joueur 3\n", cpt3);
+                *etp3=1;
+            }
+        }
+        printf("\n");
+    }
+    if (*nbjoueur >= 4) {
+        for (int i = 0; i < NOM_CARTES / (*nbjoueur); i++) {
+            if (*tp4 == mains[3][i]) {
+                cpt4--;
+                *tp4 = '_';
+                mains[3][i] = 'X';
+                printf("Il reste %d trésors a trouver pour le joueur 4\n", cpt4);
+                *etp4=1;
+            }
+        }
+        printf("\n");
+    }
+
+    if(cpt==0){
+        printf("Le joueur 1 a gagner!!! :D");
+        return 0;
+    }
+    if(cpt2==0){
+        printf("Le joueur 2 a gagner!!! :D");
+        return 0;
+    }
+    if(cpt3==0){
+        printf("Le joueur 3 a gagner!!! :D");
+        return 0;
+    }
+    if(cpt4==0){
+        printf("Le joueur 4 a gagner!!! :D");
+        return 0;
+    }
+}
+
+void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, int *x2, int *y2, int *x3, int *y3, int *x4, int *y4) {
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("%3c", tuileEntrante[i][j]);
+        }
+        printf("\n");
+    }
+
+    int orientation, ligne, colonne, sens, sens2;
+    int flag = 1, temp;
+    int n, b;
+    char tuileSortante[3][3];
+    char a, z, e, r, t, y, u, o;
+
+    orientation = choixOrientation();
+    if (orientation == 2) {
+        a = tuileEntrante[0][0];
+        z = tuileEntrante[0][1];
+        e = tuileEntrante[0][2];
+        r = tuileEntrante[1][2];
+        t = tuileEntrante[2][2];
+        y = tuileEntrante[2][1];
+        u = tuileEntrante[2][0];
+        o = tuileEntrante[1][0];
+
+        tuileEntrante[0][0] = u;
+        tuileEntrante[0][1] = o;
+        tuileEntrante[0][2] = a;
+        tuileEntrante[1][2] = z;
+        tuileEntrante[2][2] = e;
+        tuileEntrante[2][1] = r;
+        tuileEntrante[2][0] = t;
+        tuileEntrante[1][0] = y;
+    }
+    else if (orientation == 3) {
+        a = tuileEntrante[0][0];
+        z = tuileEntrante[0][1];
+        e = tuileEntrante[0][2];
+        r = tuileEntrante[1][2];
+        t = tuileEntrante[2][2];
+        y = tuileEntrante[2][1];
+        u = tuileEntrante[2][0];
+        o = tuileEntrante[1][0];
+
+        tuileEntrante[0][0] = t;
+        tuileEntrante[0][1] = y;
+        tuileEntrante[0][2] = u;
+        tuileEntrante[1][2] = o;
+        tuileEntrante[2][2] = a;
+        tuileEntrante[2][1] = z;
+        tuileEntrante[2][0] = e;
+        tuileEntrante[1][0] = r;
+
+    }
+    else if (orientation == 4) {
+        a = tuileEntrante[0][0];
+        z = tuileEntrante[0][1];
+        e = tuileEntrante[0][2];
+        r = tuileEntrante[1][2];
+        t = tuileEntrante[2][2];
+        y = tuileEntrante[2][1];
+        u = tuileEntrante[2][0];
+        o = tuileEntrante[1][0];
+
+        tuileEntrante[0][0] = e;
+        tuileEntrante[0][1] = r;
+        tuileEntrante[0][2] = t;
+        tuileEntrante[1][2] = y;
+        tuileEntrante[2][2] = u;
+        tuileEntrante[2][1] = o;
+        tuileEntrante[2][0] = a;
+        tuileEntrante[1][0] = z;
+    }
+    colonne = choixColonne();
+
+    if (colonne == 0) {
+        ligne = choixLigne();
+        sens = choixGD();
+        if (sens == 1) {
+            if (ligne == 2) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 3][j + 24];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 24] = plato[i + 3][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 20] = plato[i + 3][j + 16];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 16] = plato[i + 3][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 12] = plato[i + 3][j + 8];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 8] = plato[i + 3][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 4] = plato[i + 3][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+            else if (ligne == 4) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 9][j + 24];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 24] = plato[i + 9][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 20] = plato[i + 9][j + 16];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 16] = plato[i + 9][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 12] = plato[i + 9][j + 8];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 8] = plato[i + 9][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 4] = plato[i + 9][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+            else if (ligne == 6) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 15][j + 24];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 24] = plato[i + 15][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 20] = plato[i + 15][j + 16];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 16] = plato[i + 15][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 12] = plato[i + 15][j + 8];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 8] = plato[i + 15][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 4] = plato[i + 15][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+        } else if (sens == 2) {
+            if (ligne == 2) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 3][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j] = plato[i + 3][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 4] = plato[i + 3][j + 8];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 8] = plato[i + 3][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 12] = plato[i + 3][j + 16];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 16] = plato[i + 3][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 20] = plato[i + 3][j + 24];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 24] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+
+
+            }
+            else if (ligne == 4) {
+
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 9][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j] = plato[i + 9][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 4] = plato[i + 9][j + 8];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 8] = plato[i + 9][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 12] = plato[i + 9][j + 16];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 16] = plato[i + 9][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 20] = plato[i + 9][j + 24];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 24] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+            else if (ligne == 6) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 15][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j] = plato[i + 15][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 4] = plato[i + 15][j + 8];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 8] = plato[i + 15][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 12] = plato[i + 15][j + 16];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 16] = plato[i + 15][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 20] = plato[i + 15][j + 24];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 24] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+        }
+    } else {
+        sens2 = choixHB();
+        if (sens2 == 2) {
+            if (colonne == 2) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i][j + 4] = plato[i + 3][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 4] = plato[i + 6][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 6][j + 4] = plato[i + 9][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 4] = plato[i + 12][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 12][j + 4] = plato[i + 15][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 4] = plato[i + 18][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 18][j + 4] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+            else if (colonne == 4) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i][j + 12] = plato[i + 3][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 12] = plato[i + 6][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 6][j + 12] = plato[i + 9][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 12] = plato[i + 12][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 12][j + 12] = plato[i + 15][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 12] = plato[i + 18][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 18][j + 12] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+            else if (colonne == 6) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i][j + 20] = plato[i + 3][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 20] = plato[i + 6][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 6][j + 20] = plato[i + 9][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 20] = plato[i + 12][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 12][j + 20] = plato[i + 15][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 20] = plato[i + 18][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 18][j + 20] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+
+
+            }
+        } else if (sens2 == 1) {
+            if (colonne == 2) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 18][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 18][j + 4] = plato[i + 15][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 4] = plato[i + 12][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 12][j + 4] = plato[i + 9][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 4] = plato[i + 6][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 6][j + 4] = plato[i + 3][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 4] = plato[i][j + 4];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i][j + 4] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+            else if (colonne == 4) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 18][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 18][j + 12] = plato[i + 15][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 12] = plato[i + 12][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 12][j + 12] = plato[i + 9][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 12] = plato[i + 6][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 6][j + 12] = plato[i + 3][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 12] = plato[i][j + 12];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i][j + 12] = tuileEntrante[i][j];
+                    }
+                }
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+            else if (colonne == 6) {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileSortante[i][j] = plato[i + 18][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 18][j + 20] = plato[i + 15][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 15][j + 20] = plato[i + 12][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 12][j + 20] = plato[i + 9][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 9][j + 20] = plato[i + 6][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 6][j + 20] = plato[i + 3][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i + 3][j + 20] = plato[i][j + 20];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        plato[i][j + 20] = tuileEntrante[i][j];
+                    }
+                }
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        tuileEntrante[i][j] = tuileSortante[i][j];
+                    }
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < 21; i++) {
+        for (int j = 0; j < 27; j++) {
+            if (plato[i][j] == 'A') {
+                *yp = i;
+                *x = j;
+
+            } else if (plato[i][j] == 'B') {
+                *y2 = i;
+                *x2 = j;
+
+            } else if (plato[i][j] == 'C') {
+                *y3 = i;
+                *x3 = j;
+
+            } else if (plato[i][j] == 'D') {
+                *y4 = i;
+                *x4 = j;
+
+            }
+
+        }
+    }
+
+}
+
+int menudeplacements(int *choix, int *x, int *y, int *erreur /*,int* tab[27][27]*/) {
+    int direction;
+    if (*choix == 1) {
+        printf("de combien voulez vous avancer?\n");
+        scanf("%d", &direction);
+        *x = *x + (direction * 4);
+    }
+
+    if (*choix == 2) {
+        printf("de combien voulez vous avancer?\n");
+        scanf("%d", &direction);
+        direction = direction * (-4);
+        *x = *x + direction;
+    }
+    if (*choix == 3) {
+        printf("de combien voulez vous avancer?\n");
+        scanf("%d", &direction);
+        direction = direction * (-3);
+        *y = *y + direction;
+    }
+    if (*choix == 4) {
+        printf("de combien voulez vous avancer?\n");
+        scanf("%d", &direction);
+        *y = *y + (direction * 3);
+
+    }
+
+    if (*x > 27) {
+        *x = 25;
+        *erreur = 1;
+    }
+    if (*x < 0) {
+        *x = 1;
+        *erreur = 1;
+    }
+    if (*y > 20) {
+        *y = 19;
+        *erreur = 1;
+    }
+    if (*y < 0) {
+        *y = 1;
+        *erreur = 1;
+    }
+}
+
+int menuprincipal(int* nbjoueurs) {
+    int choix;
+
+
+    printf("1: nouvelle partie \n2: sauvegarder\n3: charger une partie\n"
+           "4: afficher les regles et credits\n5: quitter\n");
+
+    scanf("%d", &choix);
+
+    while (choix < 1 || choix > 5) {
+        printf("veuillez entrer un choix existant\n");
+        scanf("%d", &choix);
+    }
+    if (choix == 1) {
+        printf("nouvelle partie\n");
+        printf("veuillez entrer le nombre de joueurs\n");
+        scanf("%d", nbjoueurs);
+        while (*nbjoueurs < 1 || *nbjoueurs > 4) {
+            printf("veuillez entrer le nombre de joueurs\n");
+            scanf("%d", nbjoueurs);
+        }
+
+        return *nbjoueurs;
+
+
+    }
+    if (choix == 2) {
+        printf("sauvegarder");
+
+    }
+    if (choix == 3) {
+        printf("charger partie");
+
+
+    }
+    if (choix == 4) {
+        printf("Pour jouer au Labyrinthe, il vous faut :\n"
+               "1 a 4 joueurs.\n"
+               "Le plateau de jeu.\n"
+               "Les 24 cartes «tresor».\n"
+               "Les 34 cartons carres «labyrinthe».\n"
+               "Les 4 pions de couleurs differentes.\n"
+               "Comment jouer au Labyrinthe :\n"
+               "Dans un premier temps, il faut mettre en place le plateau de jeu.\n"
+               "Pour ce faire, il vous faut melanger les cartons «labyrinthe» qui represente les couloirs du labyrinthe vu du dessus.\n"
+               "Ensuite, il faut les placer sur les emplacements libres du plateau de jeu de manière à créer un labyrinthe aléatoire. \n"
+               "Une fois le labyrinthe cree il doit vous rester une carte «labyrinthe». Cette carte servira a deplacer les couloirs en les faisant coulisser.\n"
+               "Avant de commencer la partie, les joueurs doivent se distribuer toutes les cartes «tresor», face cachee, de façon à ce qu ils aient tous le meme \n"
+               "nombre de cartes. Chaque joueur doit empiler ses cartes devant lui sans les regarder.  Chaque joueur choisit son pion et le place sur la case \n"
+               "correspondante a la couleur de celui-ci (dans les 4 coins du plateau de jeu).\n"
+               "C est le joueur le plus jeune qui commence a jouer et la partie se poursuit dans le sens des aiguilles d une montre. Chaque joueur regarde la carte «tresor»\n"
+               "situee en haut de sa pile sans la devoiler aux autres. Il faut savoir que le tour d un joueur se deroule toujours de la meme maniere.\n"
+               "En effet, le joueur doit toujours deplacer une rangee ou une colonne en premier, en introduisant la carte «Labyrinthe» supplementaire. Ensuite il peut \n"
+               "deplacer son pion pour essayer d atteindre son objectif «tresor». Notez qu un joueur est toujours oblige de modifier le labyrinthe avant de pouvoir deplacer \n"
+               "son pion et ce meme si  son «tresor» est accessible directement.\n"
+               "Le tour d un joueur au Labyrinthe :\n"
+               "1 – La modification des couloirs du Labyrinthe :\n"
+               "Il y a 12 fleches sur les bordures du plateau de jeu. Elles indiquent les colonnes et les rangees qui peuvent être modifiees en inserant \n"
+               "la carte «labyrinthe»\n"
+               "supplementaire. C est le joueur qui choisit la colonne ou la rangee qu il souhaite modifier lorsque vient son tour. Il suffit de pousser \n"
+               "la colonne ou la rangee à l aide de la carte supplementaire vers l interieur du plateau.  Une nouvelle carte est donc expulsee de l autre cote du plateau.\n"
+               "Cette nouvelle carte «labyrinthe» reste sur le cote du plateau jusqu a temps qu’elle soit reintroduite par le joueur suivant.\n"
+               "ATTENTION : si un pion est expulse hors du plateau lors d un mouvement d une colonne ou d’une rangee il est replace à l oppose de celle-ci.\n"
+               " Cependant, ceci ne constitue pas un mouvement du pion.\n"
+               "2 – Le deplacement du joueur :\n"
+               "\n"
+               "Une fois que le joueur a modifie le labyrinthe, il peut se deplacer. Le joueur peut deplacer son pion librement aussi loin qu il le souhaite mais il \n"
+               "ne peut pas, bien sur, traverser les murs. Il est possible de s arreter sur une case occupee par un autre joueur. S il le veut,  il n’est pas oblige\n"
+               "d avancer et peut rester sur place.\n"
+               "\n"
+               "Si le joueur n a pas son tresor (dessin de la carte «tresor») il peut placer son pion de maniere a se rapprocher au plus pres de son objectif \n"
+               "pour le prochain tour. Si le joueur atteint son tresor il se defausse de sa carte et peut directement regarder son prochain objectif en prenant la \n"
+               "carte suivante de sa pile cartes «tresor»\n"
+               "\n"
+               "C est alors au joueur de suivant de jouer. Il procedera de la meme maniere en modifiant le labyrinthe puis en deplaçant son pion vers son objectif «tresor».\n"
+               "\n"
+               "Comment gagner au Labyrinthe :\n"
+               "Pour remporter une partie au Labyrinthe, le joueur doit avoir decouvert tous ses tresors et doit revenir a son point de depart. Une fois de retour\n"
+               "a son point de depart il est declare vainqueur et la partie est terminee.\n"
+               "\n"
+               "Credits \n"
+               "https://www.regles-de-jeux.com/regle-du-labyrinthe/\n"
+               "Elias Douady \n"
+               "Kimi Ho\n"
+               "Pierre Tailhades\n"
+               "Mathieu Bouche");
+        menuprincipal( nbjoueurs);
+
+
+    }
+    if (choix == 5) {
+        return 0;
+    }
+
+}
+
+void plateau(int *nbjoueurs) {
+    char mains[4][NOM_CARTES];
+    int a;
+    int i;
+    int xt = 25, yt = 19, xt1 = 1, yt1 = 1, xt2 = 25, yt2 = 1, xt3 = 1, yt3 = 19;
+    int *choix = &a;
+    int x = 1;
+    int y = 1;
+    int x2 = 25;
+    int y2 = 1;
+    int x3 = 1;
+    int y3 = 19;
+    int x4 = 25;
+    int y4 = 19;
+    int p;
+    int *pt = &p;
+    if (*nbjoueurs < 4) {
+        y4 = 0;
+        x4 = 0;
+    }
+    if (*nbjoueurs < 3) {
+        y3 = 0;
+        x3 = 0;
+    }
+    if (*nbjoueurs < 2) {
+        y2 = 0;
+        x2 = 0;
+    }
+
+
+    int *xp = &x;
+    int *yp = &y;
+    int *xp2 = &x2;
+    int *yp2 = &y2;
+    int *xp3 = &x3;
+    int *yp3 = &y3;
+    int *xp4 = &x4;
+    int *yp4 = &y4;
+    int flag = 1;
+    int etattour = 1;
+    int erreur = 0, erreur2 = 0, erreur3 = 0, erreur4 = 0;
+    int *erreurp2 = &erreur2;
+    int *erreurp3 = &erreur3;
+    int *erreurp4 = &erreur4;
+    int *erreurp = &erreur;
+    *erreurp=0;
+    *erreurp2=0;
+    *erreurp3=0;
+    *erreurp4=0;
+
+    char t;
+    char tt, t2, tt2, t3, tt3, t4, tt4;
+    char *tp1 = &t;
+    char *tp2 = &t2;
+    char *tp3 = &t3;
+    char *tp4 = &t4;
+    *tp1 = '_', *tp2 = '_', *tp3 = '_', *tp4 = '_';
+    int et,et2,et3,et4;
+    int* etp=&et;int* etp2=&et2;int* etp3=&et3;int* etp4=&et4;
+    *etp=0;
+    *etp2=0;
+    *etp3=0;
+    *etp4=0;
+
+
+    printf(" C est parti pour %d joueurs !\n", *nbjoueurs);
+    char plato[21][27] =
+            {{'#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#'},// ligne 1
+             {'#', 'A', '_', ' ', '_', '_', '_', ' ', '_', '&', '_', ' ', '_', '?', '_', ' ', '_', '|', '_', ' ', '_', '_', '_', ' ', '_', 'B', '#'},
+             {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},
+
+             {'#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},//ligne 2
+             {'_', '_', '_', ' ', '_', '}', '#', ' ', '#', '/', '_', ' ', '_', '_', '_', ' ', '_', '_', '#', ' ', '_', '_', '#', ' ', '#', '_', '#'},
+             {'#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},
+
+             {'#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},//ligne 3
+             {'#', '[', '_', ' ', '_', '[', '#', ' ', '#', ']', '_', ' ', '_', '.', '#', ' ', '_', ':', '_', ' ', '_', '$', '#', ' ', '_', '@', '#'},
+             {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},
+
+             {'#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},//ligne 4
+             {'#', '_', '#', ' ', '_', '_', '#', ' ', '#', ']', '_', ' ', '_', '_', '#', ' ', '#', '_', '_', ' ', '_', '_', '#', ' ', '#', '_', '#'},
+             {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},
+
+             {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},//ligne 5
+             {'#', '}', '_', ' ', '_', '_', '_', ' ', '_', ';', '_', ' ', '_', ';', '_', ' ', '_', '/', '#', ' ', '_', '<', '#', ' ', '_', '(', '#'},
+             {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},
+
+             {'#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#'},//ligne 6
+             {'#', '_', '#', ' ', '_', '^', '#', ' ', '#', '_', '_', ' ', '_', '_', '#', ' ', '#', ':', '_', ' ', '_', '_', '#', ' ', '#', '_', '#'},
+             {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},
+
+             {'#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '#', '#', ' ', '#', '_', '#', ' ', '#', '_', '#', ' ', '#', '_', '#'},//ligne 7
+             {'#', 'C', '_', ' ', '_', '_', '_', ' ', '_', '{', '_', ' ', '_', '_', '_', ' ', '_', ')', '_', ' ', '_', '>', '#', ' ', '_', 'D', '#'},
+             {'#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#'}};
+
+
+    char tuileEnPlus[3][3] = {{'#', '#', '#'},
+                              {'_', '>', '_'},
+                              {'#', '_', '#'}};
+
+    creaPlato(plato);
+    distributionCartes(nbjoueurs, mains);
+
+
+    for (int i = 0; i < 21; i++) {
+        for (int j = 0; j < 27; j++) {
+            printf("%3c", plato[i][j]);
+
+        }
+        printf("\n");
+        if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
+    }
+
+    while (1 == 1) {
+        if (etattour == 1) {
+            *erreurp = 0;
+            printf("tour joueur 1\n");
+            printf("Main du joueur 1: "); // soit on enleve le print des cartes soit on ne l'enleve pas
+            for (int j = 0; j < NOM_CARTES / (*nbjoueurs); j++) {
+                printf("%c ", mains[0][j]);
+            }
+            printf("\n");
+            if (flag == 1) {
+                modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4, erreurp,erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4);
+                plato[*yp][*xp] = 'A';
+                plato[*yp2][*xp2] = 'B';
+                plato[*yp3][*xp3] = 'C';
+                plato[*yp4][*xp4] = 'D';
+                // erreur=1;
+
+                for (int i = 0; i < 21; i++) {
+                    for (int j = 0; j < 27; j++) {
+                        printf("%3c", plato[i][j]);
+
+                    }
+                    printf("\n");
+                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
+                }
+                flag = 0;
+            }
+            printf("Deplacez-vous :\n 1: Droite\n 2: Gauche\n 3: Haut\n 4: Bas\n 5: Tour suivant\n 6: Retour au menu\n");
+            scanf("%d", choix);
+            while (*choix <= 0 || *choix > 6) {
+                printf("Deplacez-vous :\n 1: Droite\n 2: Gauche\n 3: Haut\n 4: Bas\n 5: Tour suivant\n 6: Retour au menu\n");
+                scanf("%d", choix);
+            }
+            xt1 = *xp;
+            yt1 = *yp;
+            menudeplacements(choix, xp, yp, erreurp);
+
+
+            if (*choix == 2) {
+                for (i = xt1; i > *xp; i--) {
+                    if (plato[yt1][i] == '#') {
+                        printf("ca va pas\n");
+                        *xp = xt1;
+                        *erreurp = 1;
+                    }
+                }
+            }
+            if (*choix == 1) {
+                for (i = xt1; i < *xp; i++) {
+                    if (plato[yt1][i] == '#') {
+                        printf("ca va pas\n");
+                        *xp = xt1;
+                        *erreurp = 1;
+                    }
+                }
+            }
+            if (*choix == 3) {
+                for (i = yt1; i > *yp; i--) {
+                    if (plato[i][xt1] == '#') {
+                        printf("ca va pas\n");
+                        *yp = yt1;
+                        *erreurp = 1;
+                    }
+                }
+            }
+            if (*choix == 4) {
+                for (i = yt1; i < *yp; i++) {
+                    if (plato[i][xt1] == '#') {
+                        printf("ca va pas\n");
+                        *yp = yt1;
+                        *erreurp = 1;
+                    }
+                }
+            }
+            if (*yp == *yp2 && *xp == *xp2 || *yp == *yp3 && *xp == *xp3 || *yp == *yp4 && *xp == *xp4) {
+                printf("ca ne va pas\n");
+                *yp = yt1;
+                *xp = xt1;
+                *erreurp = 1;
+            }
+
+
+            if (*choix == 5) {
+                printf("Tour suivant\n");
+                etattour++;
+                flag = 1;
+                *erreurp = 1;
+            }
+            if (*choix == 6) {
+                printf("Retour au menu\n");
+                menuprincipal(nbjoueurs);
+            }
+            if (*nbjoueurs == 1 && etattour > 1) {
+
+                etattour = 1;
+
+            }
+
+
+        }
+        if (etattour == 2) {
+            printf("tour joueur 2\n");
+            printf("Main du joueur 2: "); // soit on enleve le print des cartes soit on ne l'enleve pas
+            for (int j = 0; j < NOM_CARTES / (*nbjoueurs); j++) {
+                printf("%c ", mains[1][j]);
+            }
+            printf("\n");
+            //    *erreurp2 = 0;
+            if (flag == 1) {
+                modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
+                plato[*yp][*xp] = 'A';
+                plato[*yp2][*xp2] = 'B';
+                plato[*yp3][*xp3] = 'C';
+                plato[*yp4][*xp4] = 'D';
+                for (int i = 0; i < 21; i++) {
+                    for (int j = 0; j < 27; j++) {
+                        printf("%3c", plato[i][j]);
+
+                    }
+                    printf("\n");
+                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
+                }
+
+                flag = 0;
+            }
+            printf("Deplacez-vous :\n 1: Droite\n 2: Gauche\n 3: Haut\n 4: Bas\n 5: Tour suivant\n 6: Retour au menu\n");
+            scanf("%d", choix);
+            while (*choix <= 0 || *choix > 6) {
+                printf("Deplacez-vous :\n 1: Droite\n 2: Gauche\n 3: Haut\n 4: Bas\n 5: Tour suivant\n 6: Retour au menu\n");
+                scanf("%d", choix);
+            }
+            // deplacementTresors()
+            xt2 = *xp2;
+            yt2 = *yp2;
+            menudeplacements(choix, xp2, yp2, erreurp2);
+            if (*choix == 2) {
+                for (i = xt2; i > *xp2; i--) {
+                    if (plato[yt2][i] == '#') {
+                        printf("ca va pas\n");
+                        *xp2 = xt2;
+                        *erreurp2 = 1;
+                    }
+                }
+            }
+            if (*choix == 1) {
+                for (i = xt2; i < *xp2; i++) {
+                    if (plato[yt2][i] == '#') {
+                        printf("ca va pas\n");
+                        *xp2 = xt2;
+                        *erreurp2 = 1;
+                    }
+                }
+            }
+            if (*choix == 3) {
+                for (i = yt2; i > *yp2; i--) {
+                    if (plato[i][xt2] == '#') {
+                        printf("ca va pas\n");
+                        *yp2 = yt2;
+                        *erreurp2 = 1;
+                    }
+                }
+            }
+            if (*choix == 4) {
+                for (i = yt2; i < *yp2; i++) {
+                    if (plato[i][xt2] == '#') {
+                        printf("ca va pas\n");
+                        *yp2 = yt2;
+                        *erreurp2 = 1;
+                    }
+                }
+            }
+            if (*yp2 == *yp && *xp2 == *xp || *yp2 == *yp3 && *xp2 == *xp3 || *yp2 == *yp4 && *xp2 == *xp4) {
+                printf("ca ne va pas\n");
+                *yp2 = yt2;
+                *xp2 = xt2;
+                *erreurp2 = 1;
+            }
+            if (*choix == 5) {
+                printf("Tour suivant\n");
+                etattour++;
+                flag = 1;
+                *erreurp2 = 1;
+            }
+            if (*choix == 6) {
+                printf("Retour au menu");
+                menuprincipal(nbjoueurs);
+            }
+
+
+        }
+        if (*nbjoueurs == 2 && etattour > 2) {
+
+            etattour = 1;
+
+        }
+
+        if (etattour == 3) {
+            printf("tour joueur 3\n");
+            printf("Main du joueur 3:\n "); // soit on enleve le print des cartes soit on ne l'enleve pas
+            for (int j = 0; j < NOM_CARTES / (*nbjoueurs); j++) {
+                printf("%c ", mains[2][j]);
+            }
+            printf("\n " );
+            //  *erreurp3 = 0;
+            if (flag == 1) {
+                modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
+                plato[*yp][*xp] = 'A';
+                plato[*yp2][*xp2] = 'B';
+                plato[*yp3][*xp3] = 'C';
+                plato[*yp4][*xp4] = 'D';
+                for (int i = 0; i < 21; i++) {
+                    for (int j = 0; j < 27; j++) {
+                        printf("%3c", plato[i][j]);
+
+                    }
+                    printf("\n");
+                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
+                }
+                flag = 0;
+            }
+            printf("Deplacez-vous :\n 1: Droite\n 2: Gauche\n 3: Haut\n 4: Bas\n 5: Tour suivant\n 6: Retour au menu\n");
+            scanf("%d", choix);
+            while (*choix <= 0 || *choix > 6) {
+                printf("Deplacez-vous :\n 1: Droite\n 2: Gauche\n 3: Haut\n 4: Bas\n 5: Tour suivant\n 6: Retour au menu\n");
+                scanf("%d", choix);
+            }
+            xt3 = *xp3;
+            yt3 = *yp3;
+            menudeplacements(choix, xp3, yp3, erreurp3);
+
+            if (*choix == 2) {
+                for (i = xt3; i > *xp3; i--) {
+                    if (plato[yt3][i] == '#') {
+                        printf("ca va pas\n");
+                        *xp3 = xt3;
+                        *erreurp3 = 1;
+                    }
+                }
+            }
+            if (*choix == 1) {
+                for (i = xt3; i < *xp3; i++) {
+                    if (plato[yt3][i] == '#') {
+                        printf("ca va pas\n");
+                        *xp3 = xt3;
+                        *erreurp3 = 1;
+                    }
+                }
+            }
+            if (*choix == 3) {
+                for (i = yt3; i > *yp3; i--) {
+                    if (plato[i][xt3] == '#') {
+                        printf("ca va pas\n");
+                        *yp3 = yt3;
+                        *erreurp3 = 1;
+                    }
+                }
+            }
+            if (*choix == 4) {
+                for (i = yt3; i < *yp3; i++) {
+                    if (plato[i][xt3] == '#') {
+                        printf("ca va pas\n");
+                        *yp3 = yt3;
+                        *erreurp3 = 1;
+                    }
+                }
+            }
+
+            if (*yp3 == *yp && *xp3 == *xp || *yp3 == *yp2 && *xp3 == *xp2 || *yp3 == *yp4 && *xp3 == *xp4) {
+                printf("ca ne va pas\n");
+                *yp3 = yt3;
+                *xp3 = xt3;
+                *erreurp3 = 1;
+            }
+            if (*choix == 5) {
+                printf("Tour suivant\n");
+                etattour++;
+                flag = 1;
+                *erreurp3 = 1;
+            }
+            if (*choix == 6) {
+                printf("Retour au menu\n");
+                menuprincipal( nbjoueurs);
+            }
+
+            if (*nbjoueurs == 3 && etattour > 3) {
+
+                etattour = 1;
+
+            }
+
+        }
+        if (etattour == 4) {
+            printf("tour joueur 4\n");
+            printf("Main du joueur 4: "); // soit on enleve le print des cartes soit on ne l'enleve pas
+            for (int j = 0; j < NOM_CARTES / (*nbjoueurs); j++) {
+                printf("%c ", mains[3][j]);
+            } 
+            printf("\n " );
+            // *erreurp4 = 0;
+            if (flag == 1) {
+                modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
+                plato[*yp][*xp] = 'A';
+                plato[*yp2][*xp2] = 'B';
+                plato[*yp3][*xp3] = 'C';
+                plato[*yp4][*xp4] = 'D';
+                for (int i = 0; i < 21; i++) {
+                    for (int j = 0; j < 27; j++) {
+                        printf("%3c", plato[i][j]);
+                    }
+                    printf("\n");
+                    if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
+                }
+                flag = 0;
+            }
+            printf("Deplacez-vous :\n 1: Droite\n 2: Gauche\n 3: Haut\n 4: Bas\n 5: Tour suivant\n 6: Retour au menu\n");
+            scanf("%d", choix);
+            while (*choix <= 0 || *choix > 6) {
+                printf("Deplacez-vous :\n 1: Droite\n 2: Gauche\n 3: Haut\n 4: Bas\n 5: Tour suivant\n 6: Retour au menu\n");
+                scanf("%d", choix);
+            }
+            xt = *xp4;
+            yt = *yp4;
+            menudeplacements(choix, xp4, yp4, erreurp4);
+            if (*choix == 2) {
+                for (i = xt; i > *xp4; i--) {
+                    if (plato[yt][i] == '#') {
+                        printf("ca va pas\n");
+                        *xp4 = xt;
+                        *erreurp4 = 1;
+                    }
+                }
+            }
+            if (*choix == 1) {
+                for (i = xt; i < *xp4; i++) {
+                    if (plato[yt][i] == '#') {
+                        printf("ca va pas\n");
+                        *xp4 = xt;
+                        *erreurp4 = 1;
+                    }
+                }
+            }
+            if (*choix == 3) {
+                for (i = yt; i > *yp4; i--) {
+                    if (plato[i][xt] == '#') {
+                        printf("ca va pas\n");
+                        *yp4 = yt;
+                        *erreurp4 = 1;
+                    }
+                }
+            }
+            if (*choix == 4) {
+                for (i = yt; i < *yp4; i++) {
+                    if (plato[i][xt] == '#') {
+                        printf("ca va pas\n");
+                        *yp4 = yt;
+                        *erreurp4 = 1;
+                    }
+                }
+            }
+            if (*yp4 == *yp && *xp4 == *xp || *yp4 == *yp2 && *xp4 == *xp2 || *yp4 == *yp3 && *xp4 == *xp3) {
+                printf("ca ne va pas\n");
+                *yp4 = yt;
+                *xp4 = xt;
+                *erreurp4 = 1;
+            }
+            if (*choix == 5) {
+                printf("Tour suivant\n");
+                etattour++;
+                flag = 1;
+                *erreurp4 = 1;
+            }
+            if (*choix == 6) {
+                printf("Retour au menu\n");
+                menuprincipal(nbjoueurs);
+            }
+        }
+
+
+        if (*nbjoueurs == 4 && etattour > 4) {
+
+            etattour = 1;
+
+        }
+        tt = *tp1;
+
+        if (*erreurp == 0) {
+            *tp1 = plato[*yp][*xp];
+            detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
+            if(*etp==1)
+
+            {   tt = *tp1;
+                *etp=0;
+            }
+            plato[yt1][xt1] = tt;
+            printf("pas d erreur\n");
+        }
+
+        if (*erreurp == 1) {// t=tt;
+            printf("erreur\n");
+            *erreurp = 0;
+        }
+        plato[*yp][*xp] = 'A';
+
+        if (*nbjoueurs >= 2) {
+            tt2 = *tp2;
+            if (*erreurp2 == 0) {
+                *tp2 = plato[*yp2][*xp2];
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
+                if(*etp==1)
+                {   tt2 = *tp2;
+                    *etp2=0;
+                }
+                plato[yt2][xt2] = tt2;
+            }
+
+
+            if (*erreurp2 == 1) {
+                *erreurp2 = 0;
+            }
+            plato[*yp2][*xp2] = 'B';
+        }
+        if (*nbjoueurs >= 3) {
+            tt3 = *tp3;
+            if (*erreurp3 == 0) {
+                *tp3 = plato[*yp3][*xp3];
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4);
+                if(*etp==1)
+                {   tt3 = *tp3;
+                    *etp3=0;
+                }
+                plato[yt3][xt3] = tt3;
+            }
+
+            if (*erreurp3 == 1) {
+                *erreurp3 = 0;
+            }
+
+            plato[*yp3][*xp3] = 'C';
+        }
+        if (*nbjoueurs >= 4) {
+
+            tt4 = *tp4;
+            if (*erreurp4 == 0) {
+                *tp4 = plato[*yp4][*xp4];
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
+                if(*etp==1)
+                {   tt4 = *tp4;
+                    *etp4=0;
+                }
+                plato[yt][xt] = tt4;
+            }
+            if (*erreurp4 == 1) { *erreurp4 = 0; }
+            plato[*yp4][*xp4] = 'D';
+        }
+
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 27; j++) {
+                printf("%3c", plato[i][j]);
+
+            }
+            printf("\n");
+            if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
+        }
+
+
+    }
+}
+
+int main() {
+    int nbjoueurs1;
+    int *nbjoueurs2 = &nbjoueurs1;
+    nbjoueurs1 = menuprincipal(nbjoueurs2);
+    *nbjoueurs2 = nbjoueurs1;
+    plateau(nbjoueurs2);
+    return 0;
+}
+
