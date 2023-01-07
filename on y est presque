@@ -14,33 +14,30 @@ void melangeCartes(char *cartes) { //melange des cartes
     }
 }
 
-void distribution(char *cartes, int nbJoueur, char mains[][NOM_CARTES / 2]) { // distribue les cartes
-    int cartesParJoueurs = NOM_CARTES / nbJoueur;
-    for (int i = 0; i < nbJoueur; i++) {
+void distribution(char *cartes, int *nbJoueurs, char mains[4][NOM_CARTES]) { // distribue les cartes
+    int cartesParJoueurs = NOM_CARTES / (*nbJoueurs);
+    for (int i = 0; i < *nbJoueurs; i++) {
         for (int j = 0; j < cartesParJoueurs; j++) {
             mains[i][j] = cartes[i * cartesParJoueurs + j]; //forme de la main [Numero joueur][numero de la carte]
         }
     }
 }
 
-void distributionCartes() { //fusion du melange et de la distribution
+void distributionCartes(int* nbJoueurs) { //fusion du melange et de la distribution
     char cartes[NOM_CARTES] = {'!', '%', '*', '~', '=', '+', '&', '|', '@', '(', ')', '{', '}', '[', ']', ':', '/', ';',
                                '.', '?', '^', '$', '<', '>'}; //les cartes trésors
     char mains[4][NOM_CARTES];
 
     srand(time(NULL)); //randomization de rand()
-    int nbJoueur;
-    printf("Nombre de joueurs (2-4): ");
-    scanf("%d", &nbJoueur);
 
     melangeCartes(cartes);
 
-    distribution(cartes, nbJoueur, mains);
+    distribution(cartes, nbJoueurs, mains);
 
     // Print les mains
-    for (int i = 0; i < nbJoueur; i++) {
+    for (int i = 0; i < (*nbJoueurs); i++) {
         printf("Main du joueur %d: ", i + 1); // soit on enleve le print des cartes soit on ne l'enleve pas
-        for (int j = 0; j < NOM_CARTES / nbJoueur; j++) {
+        for (int j = 0; j < NOM_CARTES / (*nbJoueurs); j++) {
             printf("%c ", mains[i][j]);
         }
         printf("\n");
@@ -237,20 +234,12 @@ void creaPlato(char plato[21][27]) {
                   'j','k','l','m','5','6','7',
                   'w','x','c','v','b','n','1','2','3','4'};
 
-
-
     for (int i = 32; i > 0; i--) {
         int j = rand() % (i + 1);
         int temp = tab[i];
         tab[i] = tab[j];
         tab[j] = temp;
     }
-
-    for(int i=0;i<33;i++)
-        printf("%c  ",tab[i]);
-
-    printf("\n");
-
 
     plato[1][5]=tab[0];
     plato[1][13]=tab[1];
@@ -813,44 +802,45 @@ void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, in
     }
 }
 
-void detectionTresors(char plato[21][27], int* nbjoueur, char *mains[4][24],char* tp,char* tp2,char* tp3,char* tp4){
-    int cpt=0; //compteur de point
+void detectionTresors(int* nbjoueur, char* mains[4][24],char* tp,char* tp2,char* tp3,char* tp4){
+    int cpt=0, cpt2=0, cpt3=0, cpt4=0; //compteur de point
     if(*nbjoueur>=1){
         for(int i=0; i<NOM_CARTES/(*nbjoueur);i++){
             if(*tp==mains[1][i]){
                 cpt++;
                 *tp='_';
-                mains[1][i]='0';
+                mains[1][i]="0";
+                printf("%d",&cpt);
             }
         }
     }
     if(*nbjoueur>=2){
         for(int i=0; i<NOM_CARTES/(*nbjoueur);i++){
             if(*tp2==mains[2][i]){
-                cpt++;
+                cpt2++;
                 *tp2='_';
-                mains[2][i]='0';
-
+                mains[2][i]="0";
+                printf("%d",&cpt2);
             }
         }
     }
     if(*nbjoueur>=3){
         for(int i=0; i<NOM_CARTES/(*nbjoueur);i++){
             if(*tp3==mains[3][i]){
-                cpt++;
+                cpt3++;
                 *tp3='_';
-                mains[3][i]='0';
-
+                mains[3][i]="0";
+                printf("%d",&cpt3);
             }
         }
     }
     if(*nbjoueur>=4){
         for(int i=0; i<NOM_CARTES/(*nbjoueur);i++){
             if(*tp4==mains[4][i]){
-                cpt++;
+                cpt4++;
                 *tp4='_';
-                mains[4][i]='0';
-
+                mains[4][i]="0";
+                printf("%d",&cpt4);
             }
         }
     }
@@ -1884,7 +1874,7 @@ void plateau(int *nbjoueurs, int *parti) {
                               {'#', '_', '#'}};
 
     creaPlato(plato);
-    distributionCartes();
+    distributionCartes(nbjoueurs);
 
 
     for (int i = 0; i < 21; i++) {
@@ -1903,7 +1893,7 @@ void plateau(int *nbjoueurs, int *parti) {
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp,tp1,tp2,tp3,tp4,plato);
-                //detectionTresors( plato[21][27], nbjoueurs,  mains[4][24], tp, tp2, tp3, tp4);
+                detectionTresors(  nbjoueurs,  mains, tp1, tp2, tp3, tp4);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -1997,7 +1987,7 @@ void plateau(int *nbjoueurs, int *parti) {
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,  erreurp2,tp1,tp2,tp3,tp4,plato);
-                detectionTresors( plato[21][27], nbjoueurs,  mains[4][24], tp, tp2, tp3, tp4);
+                detectionTresors(  nbjoueurs,  mains, tp1, tp2, tp3, tp4);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -2022,7 +2012,7 @@ void plateau(int *nbjoueurs, int *parti) {
             // deplacementTresors()
             xt2 = *xp2;
             yt2 = *yp2;
-            menudeplacements(choix, xp2, yp2,        erreurp2);
+            menudeplacements(choix, xp2, yp2,erreurp2);
             if (*choix == 2) {
                 for (i = xt2; i > *xp2; i--) {
                     if (plato[yt2][i] == '#') {
@@ -2090,7 +2080,7 @@ void plateau(int *nbjoueurs, int *parti) {
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp3,tp1,tp2,tp3,tp4,plato);
-                detectionTresors( plato[21][27], nbjoueurs,  mains[4][24], tp, tp2, tp3, tp4);
+                detectionTresors(  nbjoueurs,  mains, tp1, tp2, tp3, tp4);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -2182,7 +2172,7 @@ void plateau(int *nbjoueurs, int *parti) {
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp4,tp1,tp2,tp3,tp4,plato);
-                detectionTresors( plato[21][27], nbjoueurs,  mains[4][24], tp, tp2, tp3, tp4);
+                detectionTresors( nbjoueurs,  mains, tp1, tp2, tp3, tp4);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -2190,7 +2180,6 @@ void plateau(int *nbjoueurs, int *parti) {
                 for (int i = 0; i < 21; i++) {
                     for (int j = 0; j < 27; j++) {
                         printf("%3c", plato[i][j]);
-
                     }
                     printf("\n");
                     if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
@@ -2270,7 +2259,7 @@ void plateau(int *nbjoueurs, int *parti) {
 
         if(*erreurp==0)
         {*tp1= plato[*yp][*xp];
-            detectionTresors( plato[21][27], nbjoueurs,  mains[4][24], tp, tp2, tp3, tp4);
+            detectionTresors(nbjoueurs,  mains, tp1, tp2, tp3, tp4);
             plato[yt1][xt1] = tt;
             printf("pas d erreur\n");
         }
@@ -2285,6 +2274,7 @@ void plateau(int *nbjoueurs, int *parti) {
             tt2=*tp2;
             if(*erreurp2==0)
             {   *tp2= plato[*yp2][*xp2];
+                detectionTresors(nbjoueurs,  mains, tp1, tp2, tp3, tp4);
                 plato[yt2][xt2] = tt2;}
 
 
@@ -2298,6 +2288,7 @@ void plateau(int *nbjoueurs, int *parti) {
             tt3=*tp3;
             if(*erreurp3==0)
             {   *tp3= plato[*yp3][*xp3];
+                detectionTresors(nbjoueurs,  mains, tp1, tp2, tp3, tp4);
                 plato[yt3][xt3] = tt3;}
 
             if(*erreurp3==1)
@@ -2312,6 +2303,7 @@ void plateau(int *nbjoueurs, int *parti) {
             tt4=*tp4;
             if(*erreurp4==0)
             { *tp4= plato[*yp4][*xp4];
+                detectionTresors(nbjoueurs,  mains, tp1, tp2, tp3, tp4);
                 plato[yt][xt] = tt4;
             }
             if(*erreurp4==1)
