@@ -2327,10 +2327,15 @@ void plateau(int *nbjoueurs) {
 
         if (*erreurp == 0) {
             *tp1 = plato[*yp][*xp];
+            if(*tp1=='A')
+            {
+                *tp1=tt;
+
+            }
             detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
             if(*etp==1)
 
-            {   tt = *tp1;
+            {   tt ='_';
                 *etp=0;
             }
             plato[yt1][xt1] = tt;
@@ -2347,9 +2352,14 @@ void plateau(int *nbjoueurs) {
             tt2 = *tp2;
             if (*erreurp2 == 0) {
                 *tp2 = plato[*yp2][*xp2];
+                if(*tp2=='B')
+                {
+                    *tp2=tt2;
+
+                }
                 detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
                 if(*etp==1)
-                {   tt2 = *tp2;
+                {   tt2 = '_';
                     *etp2=0;
                 }
                 plato[yt2][xt2] = tt2;
@@ -2365,9 +2375,14 @@ void plateau(int *nbjoueurs) {
             tt3 = *tp3;
             if (*erreurp3 == 0) {
                 *tp3 = plato[*yp3][*xp3];
+                if(*tp3=='C')
+                {
+                    *tp3=tt3;
+
+                }
                 detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4);
                 if(*etp==1)
-                {   tt3 = *tp3;
+                {   tt3 = '_';
                     *etp3=0;
                 }
                 plato[yt3][xt3] = tt3;
@@ -2384,9 +2399,14 @@ void plateau(int *nbjoueurs) {
             tt4 = *tp4;
             if (*erreurp4 == 0) {
                 *tp4 = plato[*yp4][*xp4];
+                if(*tp4=='D')
+                {
+                    *tp4=tt4;
+
+                }
                 detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4);
                 if(*etp==1)
-                {   tt4 = *tp4;
+                {   tt4 = '_';
                     *etp4=0;
                 }
                 plato[yt][xt] = tt4;
