@@ -2041,7 +2041,7 @@ void plateau(int *nbjoueurs) {
                 printf("%c ", mains[1][j]);
             }
             printf("\n");
-            //    *erreurp2 = 0;
+            *erreurp2 = 0;
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
@@ -2139,7 +2139,7 @@ void plateau(int *nbjoueurs) {
                 printf("%c ", mains[2][j]);
             }
             printf("\n " );
-            //  *erreurp3 = 0;
+            *erreurp3 = 0;
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
@@ -2234,9 +2234,9 @@ void plateau(int *nbjoueurs) {
             printf("Main du joueur 4: "); // soit on enleve le print des cartes soit on ne l'enleve pas
             for (int j = 0; j < NOM_CARTES / (*nbjoueurs); j++) {
                 printf("%c ", mains[3][j]);
-            } 
+            }
             printf("\n " );
-            // *erreurp4 = 0;
+            *erreurp4 = 0;
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
@@ -2339,7 +2339,7 @@ void plateau(int *nbjoueurs) {
 
         if (*erreurp == 1) {// t=tt;
             printf("erreur\n");
-            *erreurp = 0;
+           // *erreurp = 0;
         }
         plato[*yp][*xp] = 'A';
 
@@ -2357,7 +2357,7 @@ void plateau(int *nbjoueurs) {
 
 
             if (*erreurp2 == 1) {
-                *erreurp2 = 0;
+                //*erreurp2 = 0;
             }
             plato[*yp2][*xp2] = 'B';
         }
@@ -2374,7 +2374,7 @@ void plateau(int *nbjoueurs) {
             }
 
             if (*erreurp3 == 1) {
-                *erreurp3 = 0;
+               // *erreurp3 = 0;
             }
 
             plato[*yp3][*xp3] = 'C';
@@ -2391,7 +2391,8 @@ void plateau(int *nbjoueurs) {
                 }
                 plato[yt][xt] = tt4;
             }
-            if (*erreurp4 == 1) { *erreurp4 = 0; }
+            if (*erreurp4 == 1) { //*erreurp4 = 0;
+                 }
             plato[*yp4][*xp4] = 'D';
         }
 
