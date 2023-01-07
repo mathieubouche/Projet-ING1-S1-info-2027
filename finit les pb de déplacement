@@ -106,28 +106,32 @@ void changcoo(int *x, int *y) {
     }
 }
 
-void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, int *x4, int *y4,int* erreur /* Variable qui stocke la case au milieu? */) {
+void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, int *x4, int *y4,int* erreur,char* tp,char plato[21][27] /* Variable qui stocke la case au milieu? */) {
     int a = *x, b = *y;
     char pion;
     if (tuile[1][1] == 'A') {
         changcoo(x, y);
-        tuile[1][1] = '_';
+        tuile[1][1] = *tp;
+        *tp=plato[*y][*x];
         erreur=1;
     }
 
     if (tuile[1][1] == 'B') {
         changcoo(x2, y2);
-        tuile[1][1] = '_';
+        tuile[1][1] = *tp;
+        *tp=plato[*y2][*x2];
         erreur=1;
     }
     if (tuile[1][1] == 'C') {
         changcoo(x3, y3);
-        tuile[1][1] = '_';
+        tuile[1][1] = *tp;
+        *tp=plato[*y3][*x3];
         erreur=1;
     }
     if (tuile[1][1] == 'D') {
         changcoo(x4, y4);
-        tuile[1][1] = '_';
+        tuile[1][1] = *tp;
+        *tp=plato[*y4][*x4];
         erreur=1;
     }
 }
@@ -1117,7 +1121,14 @@ void plateau(int *nbjoueurs, int *parti) {
     int* erreurp3=&erreur3;
     int* erreurp4=&erreur4;
     int* erreurp=&erreur;
-    char t='_',tt,t2='_',tt2,t3='_',tt3,t4='_',tt4;
+    char t;
+    char tt,t2,tt2,t3,tt3,t4,tt4;
+    char*tp1=&t;
+    char*tp2=&t2;
+    char*tp3=&t3;
+    char*tp4=&t4;
+    *tp1='_', *tp2='_', *tp3='_', *tp4='_';
+
     printf(" c est parti pour %d joueurs !\n", *nbjoueurs);
     char plato[21][27] =
             {{'#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#', ' ', '#', '#', '#'},// ligne 1
@@ -1182,7 +1193,7 @@ void plateau(int *nbjoueurs, int *parti) {
             printf("tour joueur 1\n");
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
-                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp,tp1,plato);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -1273,7 +1284,7 @@ void plateau(int *nbjoueurs, int *parti) {
             *erreurp2=0;
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
-                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,  erreurp2);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,  erreurp2,tp2,plato);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -1366,7 +1377,7 @@ void plateau(int *nbjoueurs, int *parti) {
             *erreurp3=0;
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
-                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp3);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp3,tp3,plato);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -1457,7 +1468,7 @@ void plateau(int *nbjoueurs, int *parti) {
             *erreurp4=0;
             if (thule == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
-                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp4);
+                tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp4,tp4,plato);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -1541,41 +1552,41 @@ void plateau(int *nbjoueurs, int *parti) {
             etattour = 1;
 
         }
-        tt=t;
+        tt=*tp1;
 
         if(*erreurp==0)
-        {t= plato[*yp][*xp];
+        {*tp1= plato[*yp][*xp];
             plato[yt1][xt1] = tt;
             printf("pas d eurreur\n");
         }
 
         if(*erreurp==1)
-        {   t=tt;
+        {// t=tt;
             printf("erreur\n");
             *erreurp=0;}
         plato[*yp][*xp] = 'A';
 
         if (*nbjoueurs >= 2) {
-            tt2=t2;
+            tt2=*tp2;
             if(*erreurp2==0)
-            {   t2= plato[*yp2][*xp2];
+            {   *tp2= plato[*yp2][*xp2];
                 plato[yt2][xt2] = tt2;}
 
 
             if(*erreurp2==1)
-            {   tt2=t2;
+            {   tt2=*tp2;
                 *erreurp2=0;
             }
             plato[*yp2][*xp2] = 'B';
         }
         if (*nbjoueurs >= 3) {
-            tt3=t3;
+            tt3=*tp3;
             if(*erreurp3==0)
-            {   t3= plato[*yp3][*xp3];
+            {   *tp3= plato[*yp3][*xp3];
                 plato[yt3][xt3] = tt3;}
 
             if(*erreurp3==1)
-            {   tt3=t3;
+            {   tt3=*tp3;
                 *erreurp3=0;
             }
 
@@ -1583,13 +1594,13 @@ void plateau(int *nbjoueurs, int *parti) {
         }
         if (*nbjoueurs >= 4) {
 
-            tt4=t4;
+            tt4=*tp4;
             if(*erreurp4==0)
-            { t4= plato[*yp4][*xp4];
+            { *tp4= plato[*yp4][*xp4];
                 plato[yt][xt] = tt4;
                }
             if(*erreurp4==1)
-            {   t4=tt4;
+            {   *tp4=tt4;
                 *erreurp4=0;}
             plato[*yp4][*xp4] = 'D';
         }
