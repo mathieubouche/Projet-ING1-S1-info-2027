@@ -2,20 +2,20 @@
 #include <time.h>
 #include <stdlib.h>
 #include <windows.h>
-
+//Nombre de cartes dans le jeu
 #define NOM_CARTES 24
 
-
-void melangeCartes(char *cartes) { //melange des cartes
+//melange des cartes
+void melangeCartes(char *cartes) {
     for (int i = 0; i < NOM_CARTES; i++) {
         int j = rand() % NOM_CARTES;//valeur du tableau que l'on echangera a chaque iteration
-        char temp = cartes[i];
+        char temp = cartes[i];//temp sert a stocker la variable
         cartes[i] = cartes[j];
         cartes[j] = temp;
     }
 }
-
-void distribution(char *cartes, int *nbJoueurs, char mains[4][NOM_CARTES]) { // distribue les cartes
+//distribue les cartes
+void distribution(char *cartes, int *nbJoueurs, char mains[4][NOM_CARTES]) {
     int cartesParJoueurs = NOM_CARTES / (*nbJoueurs);
     for (int i = 0; i < *nbJoueurs; i++) {
         for (int j = 0; j < cartesParJoueurs; j++) {
@@ -23,8 +23,8 @@ void distribution(char *cartes, int *nbJoueurs, char mains[4][NOM_CARTES]) { // 
         }
     }
 }
-
-void distributionCartes(int *nbJoueurs, char mains[4][NOM_CARTES]) { //fusion du melange et de la distribution
+//fusion du melange et de la distribution
+void distributionCartes(int *nbJoueurs, char mains[4][NOM_CARTES]) {
     char cartes[NOM_CARTES] = {'!', '%', '*', '~', '=', '+', '&', '|', '@', '(', ')', '{', '}', '[', ']', ':', '/', ';','.', '?', '^', '$', '<', '>'}; //les cartes trésors
 
     srand(time(NULL)); //randomization de rand()
@@ -42,7 +42,7 @@ void distributionCartes(int *nbJoueurs, char mains[4][NOM_CARTES]) { //fusion du
         printf("\n");
     }
 }
-
+//choix de l'orientation de la tuile
 int choixOrientation() { //choix de l'orientation de la tuile
     int choix;
     do {
@@ -51,7 +51,7 @@ int choixOrientation() { //choix de l'orientation de la tuile
     } while (!(choix == 1 || choix == 2 || choix == 3 || choix == 4));
     return choix;
 }
-
+//choix de la colonne par laquelle on insere la tuile
 int choixColonne() {
     int choixcolonne;
     do {
@@ -60,31 +60,29 @@ int choixColonne() {
     } while (!(choixcolonne == 0 || choixcolonne == 2 || choixcolonne == 4 || choixcolonne == 6));
     return choixcolonne;
 }
-
+//choix de la ligne par laquelle on insere la tuile
 int choixLigne() {
     int choixligne;
     do {
-        printf("Quelle ligne souhaitez vous decaler?\n2, 4 ou 6\n0: Aucune\n");
+        printf("Quelle ligne souhaitez vous decaler?\n2, 4 ou 6\n");
         scanf("%d", &choixligne);
-    } while (!(choixligne == 0 || choixligne == 2 || choixligne == 4 || choixligne ==
-                                                                        6)); //peut etre enlevé le 0 parce que ca ne revient pas a choix colonne et c'est equivalent a ne pas placer de tuiles
+    } while (!(choixligne == 2 || choixligne == 4 || choixligne == 6)); // blindage saisie
     return choixligne;
 }
-
+//choix de par ou on insere la tuile (haut ou bas)
 int choixHB() {
     int choixsens;
     printf("Par ou voulez vous inserer la tuile?\n1:Haut\n2:Bas\n");
     scanf("%d", &choixsens);
     return choixsens;
-}
-
+}//choix de par ou on insere la tuile (droite ou gauche)
 int choixGD() {
     int choixsens2;
     printf("Par ou voulez vous inserer la tuile?\n1:Gauche\n2:Droite\n");
     scanf("%d", &choixsens2);
     return choixsens2;
 }
-
+//randomization du plateau
 void creaPlato(char plato[21][27]) {
     //initialisation de toutes les tuiles coulissantes
     char tuiletreL1[3][3] = {{'#', '_', '#'},//1
@@ -799,44 +797,47 @@ void tp(char tuile[3][3], int *x, int *y, int *x2, int *y2, int *x3, int *y3, in
     }
 }
 //detecteur de tresor et compteur de point
-int detectionTresors(int *nbjoueur, char mains[4][24], char *tp, char *tp2, char *tp3, char *tp4,int *etp,int *etp2,int *etp3,int *etp4, int* cptp, int* cptp2, int* cptp3, int* cptp4) {
-
-    if (*nbjoueur >= 1) {//procédure pr le joueur 1
-        for (int i = 0; i < NOM_CARTES/(*nbjoueur) ; i++) {//on compare la main du joueur avec la case sur laquelle il se trouve
-            if (*tp == mains[0][i]) {//si le pion se trouve sur un trésors qui lui appartient
-                *cptp = *cptp-1;//compteur de trésors diminue
-                *tp = '_';// remplace l emplacement du trésors par un chemin normal
-                mains[0][i] = 'X';// retire le tresors a recupérer de la main
-                printf("Il reste %d trésors a trouver pour le joueur 1\n", *cptp);// message d'encouragement :D
-                *etp=1;//signal que le joueur vient de récupérer un trésors
+int detectionTresors(int *nbjoueur,  char mains[4][24], char *tp, char *tp2, char *tp3, char *tp4,int *etp,int *etp2,int *etp3,int *etp4, int* cptp, int* cptp2, int* cptp3, int* cptp4,int *parti) {
+    //procédure pr le joueur 1 qui affiche le nombre de trésors restant a trouver
+    if (*nbjoueur >= 1) {
+        for (int i = 0; i < NOM_CARTES/(*nbjoueur) ; i++) { //on compare la main du joueur avec la case sur laquelle il se trouve
+            if (*tp == mains[0][i]) {                       //si le pion se trouve sur un trésors qui lui appartient
+                *cptp = *cptp-1;                            //compteur de trésors diminue (*cptp-- n'a pas l'air de marcher)
+                *tp = '_';                                  // remplace l emplacement du trésors par un chemin normal
+                mains[0][i] = 'X';                          // retire le tresors a recupérer de la main
+                printf("Il reste %d tresors a trouver pour le joueur 1\n", *cptp);
+                *etp=1;                                     //signal que le joueur vient de récupérer un trésors
             }
         }
         printf("\n");
     }
+    //procédure pr le joueur 2 qui affiche le nombre de trésors restant a trouver
     if (*nbjoueur >= 2) {
         for (int i = 0; i < NOM_CARTES/(*nbjoueur) ; i++) {
             if (*tp2 == mains[1][i]) {
                 *cptp2=*cptp2-1;
                 *tp2 = '_';
                 mains[1][i] = 'X';
-                printf("Il reste %d trésors a trouver pour le joueur 2\n", *cptp2);
+                printf("Il reste %d tresors a trouver pour le joueur 2\n", *cptp2);
                 *etp2=1;
             }
         }
         printf("\n");
     }
+    //procédure pr le joueur 3 qui affiche le nombre de trésors restant a trouver
     if (*nbjoueur >= 3) {
         for (int i = 0; i < NOM_CARTES / (*nbjoueur); i++) {
             if (*tp3 == mains[2][i]) {
                 *cptp3=*cptp3-1;
                 *tp3 = '_';
                 mains[2][i] = 'X';
-                printf("Il reste %d trésors a trouver pour le joueur 3\n", *cptp3);
+                printf("Il reste %d tresors a trouver pour le joueur 3\n", *cptp3);
                 *etp3=1;
             }
         }
         printf("\n");
     }
+    //procédure pr le joueur 4 qui affiche le nombre de trésors restant a trouver
     if (*nbjoueur >= 4) {
         for (int i = 0; i < NOM_CARTES / (*nbjoueur); i++) {
             if (*tp4 == mains[3][i]) {
@@ -849,21 +850,25 @@ int detectionTresors(int *nbjoueur, char mains[4][24], char *tp, char *tp2, char
         }
         printf("\n");
     }
-
-    if(*cptp==0){//si le compteur de trésors arrive à 0 cela signifie que le joueur à récupérer tout ses trésors
-        printf("Le joueur 1 a gagner!!! :D");// message de victoire
+    //si le compteur de trésors arrive à 0 cela signifie que le joueur à récupérer tout ses trésors
+    if(*cptp==0){
+        printf("Le joueur 1 a gagner!!! :D\n");// message de victoire
+        *parti=0;
         return 0;
     }
     if(*cptp2==0){
-        printf("Le joueur 2 a gagner!!! :D");
+        printf("Le joueur 2 a gagner!!! :D\n");
+        *parti=0;
         return 0;
     }
-    if(*cptp3=0){
-        printf("Le joueur 3 a gagner!!! :D");
+    if(*cptp3==0){
+        printf("Le joueur 3 a gagner!!! :D\n");
+        *parti=0;
         return 0;
     }
     if(*cptp4==0){
-        printf("Le joueur 4 a gagner!!! :D");
+        printf("Le joueur 4 a gagner!!! :D\n");
+        *parti=0;
         return 0;
     }
 }
@@ -878,8 +883,7 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
     }
 
     int orientation, ligne, colonne, sens, sens2;
-    int flag = 1, temp;
-    int n, b;
+    int  temp;
     char tuileSortante[3][3];
     char a, z, e, r, t, y, u, o;
 
@@ -904,7 +908,7 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
         tuileEntrante[2][0] = t;
         tuileEntrante[1][0] = y;
     }
-    //orientation 180°
+        //orientation 180°
     else if (orientation == 3) {
         a = tuileEntrante[0][0];
         z = tuileEntrante[0][1];
@@ -925,7 +929,7 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
         tuileEntrante[1][0] = r;
 
     }
-    //orientation 90° dans le sens anti horaire
+        //orientation 90° dans le sens anti horaire
     else if (orientation == 4) {
         a = tuileEntrante[0][0];
         z = tuileEntrante[0][1];
@@ -1008,7 +1012,7 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
                     }
                 }
             }
-            //deplacement de la ligne 4
+                //deplacement de la ligne 4
             else if (ligne == 4) {
 
                 for (int i = 0; i < 3; i++) {
@@ -1065,7 +1069,7 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
                     }
                 }
             }
-            //deplacement ligne 6
+                //deplacement ligne 6
             else if (ligne == 6) {
 
                 for (int i = 0; i < 3; i++) {
@@ -1640,7 +1644,7 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
             }
         }
     }
-
+    //changement des coordonnées de A B C et D si ils sont poussés par un coulissement du plateau
     for (int i = 0; i < 21; i++) {
         for (int j = 0; j < 27; j++) {
             if (plato[i][j] == 'A') {
@@ -1659,11 +1663,10 @@ void modiplato(char plato[21][27], char tuileEntrante[3][3], int *x, int *yp, in
                 *y4 = i;
                 *x4 = j;
             }
-
         }
     }
-
 }
+
 //deplacement des pions
 int menudeplacements(int *choix, int *x, int *y, int *erreur /*int* tab[27][27]*/) {
     int direction;
@@ -1710,7 +1713,7 @@ int menudeplacements(int *choix, int *x, int *y, int *erreur /*int* tab[27][27]*
     }
 }
 
-int menuprincipal(int* nbjoueurs) {
+int menuprincipal(int* nbjoueurs,int* parti,int* parti2) {
     int choix;
 
 
@@ -1732,7 +1735,7 @@ int menuprincipal(int* nbjoueurs) {
             scanf("%d", nbjoueurs);
         }
 
-        return *nbjoueurs;
+        *parti=1;
 
 
     }
@@ -1796,17 +1799,16 @@ int menuprincipal(int* nbjoueurs) {
                "Kimi Ho\n"
                "Pierre Tailhades\n"
                "Mathieu Bouche");
-        menuprincipal( nbjoueurs);
+        menuprincipal(nbjoueurs,parti,parti2);
 
 
     }
     if (choix == 5) {
-        return 0;
-    }
+        *parti2=0;    }
 
 }
 
-void plateau(int *nbjoueurs) {
+void plateau(int *nbjoueurs, int *parti) {
     char mains[4][NOM_CARTES];// cartes à jouer
     int a;
     int i;
@@ -1845,7 +1847,8 @@ void plateau(int *nbjoueurs) {
     *cptp4=-10;
 
     //initialisation du nombre exact de carte a trouver en fonction du nombre de joueur
-    if(*nbjoueurs==1) cpt=24;
+    if(*nbjoueurs==1)
+        cpt=24;
     if(*nbjoueurs==2){
         *cptp = 12;
         *cptp2 = 12;
@@ -1957,7 +1960,7 @@ void plateau(int *nbjoueurs) {
         if (i % 3 == 2)printf("\n");//2 5 8 11 13 15
     }
 
-    while (1 == 1) {
+    while (*parti == 1) {
         if (etattour == 1) {
             *erreurp = 0;
             printf("tour joueur 1\n");
@@ -1969,7 +1972,7 @@ void plateau(int *nbjoueurs) {
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4, erreurp,erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
-                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4,parti);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -2049,7 +2052,7 @@ void plateau(int *nbjoueurs) {
             }
             if (*choix == 6) {
                 printf("Retour au menu\n");
-                menuprincipal(nbjoueurs);
+                *parti=0;
             }
             if (*nbjoueurs == 1 && etattour > 1) {
 
@@ -2070,7 +2073,7 @@ void plateau(int *nbjoueurs) {
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
-                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4,parti);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -2146,7 +2149,7 @@ void plateau(int *nbjoueurs) {
             }
             if (*choix == 6) {
                 printf("Retour au menu");
-                menuprincipal(nbjoueurs);
+                *parti=0;
             }
 
 
@@ -2168,7 +2171,7 @@ void plateau(int *nbjoueurs) {
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
-                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4,parti);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -2244,7 +2247,7 @@ void plateau(int *nbjoueurs) {
             }
             if (*choix == 6) {
                 printf("Retour au menu\n");
-                menuprincipal( nbjoueurs);
+                *parti=0;
             }
 
             if (*nbjoueurs == 3 && etattour > 3) {
@@ -2265,7 +2268,7 @@ void plateau(int *nbjoueurs) {
             if (flag == 1) {
                 modiplato(plato, tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4);
                 tp(tuileEnPlus, xp, yp, xp2, yp2, xp3, yp3, xp4, yp4,erreurp, erreurp2,erreurp3,erreurp4, tp1, tp2, tp3, tp4, plato);
-                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4,parti);
                 plato[*yp][*xp] = 'A';
                 plato[*yp2][*xp2] = 'B';
                 plato[*yp3][*xp3] = 'C';
@@ -2338,7 +2341,7 @@ void plateau(int *nbjoueurs) {
             }
             if (*choix == 6) {
                 printf("Retour au menu\n");
-                menuprincipal(nbjoueurs);
+                *parti=0;
             }
         }
 
@@ -2357,7 +2360,7 @@ void plateau(int *nbjoueurs) {
                 *tp1=tt;
 
             }
-            detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4, cptp, cptp2, cptp3, cptp4);
+            detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4,etp,etp2,etp3,etp4, cptp, cptp2, cptp3, cptp4,parti);
             if(*etp==1)
 
             {   tt ='_';
@@ -2382,7 +2385,7 @@ void plateau(int *nbjoueurs) {
                     *tp2=tt2;
 
                 }
-                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4,parti);
                 if(*etp==1)
                 {   tt2 = '_';
                     *etp2=0;
@@ -2405,7 +2408,7 @@ void plateau(int *nbjoueurs) {
                     *tp3=tt3;
 
                 }
-                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4,parti);
                 if(*etp==1)
                 {   tt3 = '_';
                     *etp3=0;
@@ -2429,7 +2432,7 @@ void plateau(int *nbjoueurs) {
                     *tp4=tt4;
 
                 }
-                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4);
+                detectionTresors(nbjoueurs, mains, tp1, tp2, tp3, tp4, etp, etp2, etp3, etp4, cptp, cptp2, cptp3, cptp4,parti);
                 if(*etp==1)
                 {   tt4 = '_';
                     *etp4=0;
@@ -2457,9 +2460,12 @@ void plateau(int *nbjoueurs) {
 int main() {
     int nbjoueurs1;
     int *nbjoueurs2 = &nbjoueurs1;
-    nbjoueurs1 = menuprincipal(nbjoueurs2);
-    *nbjoueurs2 = nbjoueurs1;
-    plateau(nbjoueurs2);
+    int parti;
+    int* parti1=&parti;
+    int parti2=1;
+    int*parti2p=&parti2;
+    while(*parti2p==1)
+    {  menuprincipal(nbjoueurs2, parti1,parti2);
+        plateau(nbjoueurs2,parti1);}
     return 0;
 }
-
